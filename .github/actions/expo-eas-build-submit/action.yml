@@ -63,6 +63,9 @@ runs:
           --output="app.${{ inputs.platform == 'ios' && 'ipa' || 'apk' }}"
     - name: Submit app
       shell: bash
+      env:
+        ASC_API_KEY_ID: ${{ inputs.asc_api_key_id }}
+        ASC_API_KEY_ISSUER_ID: ${{ inputs.asc_api_key_issuer_id }}
       run: |
         eas submit \
           --platform=${{ inputs.platform }} \
