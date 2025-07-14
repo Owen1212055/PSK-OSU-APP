@@ -71,5 +71,4 @@ runs:
           --platform=${{ inputs.platform }} \
           --non-interactive \
           --path="app.${{ inputs.platform == 'ios' && 'ipa' || 'apk' }}" \
-          --profile=${{ inputs.profile }} \
-          --what-to-test="${{ inputs.commit_message }}"
+          --profile=${{ inputs.profile }}
