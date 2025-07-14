@@ -69,4 +69,4 @@ runs:
           --non-interactive \
           --path="app.${{ inputs.platform == 'ios' && 'ipa' || 'apk' }}" \
           --profile=${{ inputs.profile }} \
-          --message="${{ inputs.commit_message }}"
+          --what-to-test="${{ inputs.commit_message }}"
