@@ -86,8 +86,6 @@ function useStyles(theme: Theme) {
     return StyleSheet.create({
         root: {
             flex: 1,
-            backgroundColor: color(theme, 'background'),
-            padding: 16,
             justifyContent: "space-between"
         },
         profile: {

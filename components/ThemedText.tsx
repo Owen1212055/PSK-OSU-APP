@@ -3,10 +3,12 @@ import {StyleSheet, Text, type TextProps} from 'react-native';
 import {useThemeColor} from '@/hooks/useThemeColor';
 import {Colors} from "@/constants/Colors";
 
+export type TextTheme = 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'subtitle_mini' | 'default_button' | "title_new" | "title_new_chunky" | "title_new_chunky_subtext" | "navbar_location" | "title_new_chunky_subtext_heavy" | "navbar_header" | "profile_name" | "profile_username" | "content_header";
+
 export type ThemedTextProps = TextProps & {
     lightColor?: string;
     darkColor?: string;
-    type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'subtitle_mini' | 'default_button' | "title_new" | "title_new_chunky" | "title_new_chunky_subtext" | "navbar_location" | "title_new_chunky_subtext_heavy" | "navbar_header" | "profile_name" | "profile_username" | "content_header";
+    type?: TextTheme;
     colorType?: keyof typeof Colors.light;
 };
 
