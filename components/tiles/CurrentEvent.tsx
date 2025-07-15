@@ -33,9 +33,9 @@ export function CurrentEvent() {
           const activeEvent = events[0];
           setActiveEvent(activeEvent);
           // @ts-ignore
-          if (activeEvent && activeEvent.checkedIn[(await APIService.me()).id]) {
-            setCheckInState('success');
-          }
+          // if (activeEvent && activeEvent.checkedIn[(await APIService.me()).id]) {
+          //   setCheckInState('success');
+          // }
         } else {
           setActiveEvent(null);
         }

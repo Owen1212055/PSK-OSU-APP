@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import AttendancePoints from "@/components/newui/points/AttendancePoints";
 import {TitledView} from "@/components/newui/TitledView";
@@ -9,9 +9,11 @@ import {UserInfo} from "@/api/Entities";
 export default function Leaderboard() {
     // TODO: REMOVE THIS
     const [me, setMe] = useState<UserInfo | null>(null);
-    APIService.me().then((me) => {
-        setMe(me);
-    })
+    useEffect(() => {
+        APIService.me().then((me) => {
+            setMe(me);
+        });
+    }, []);
 
     return (
         <View style={styles.root}>

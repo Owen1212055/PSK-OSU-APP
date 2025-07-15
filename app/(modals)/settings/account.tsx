@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, View,} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, StyleSheet, View,} from 'react-native';
 import {color, Theme, useTheme} from '@/hooks/useThemeColor';
 import {router} from "expo-router";
 import Constants from "expo-constants";
@@ -8,47 +8,62 @@ import APIService from "@/api/APIService";
 import {useFocusEffect} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {ConfirmationHeader} from "@/components/newui/ConfirmationHeader";
+import ProfilePicture from "@/components/newui/util/ProfilePicture";
+import {ClickableThemedText} from "@/components/newui/input/ClickableThemedText";
+import * as ImagePicker from "expo-image-picker";
 
 export default function DashboardScreen() {
 
     const styles = useStyles(useTheme());
 
-    const handleLogin = () => {
-        router.push("/settings/index2")
+    const [profilePicture, setProfilePicture] = useState<string>();
+    const [profilePictureUri, setProfilePictureUi] = useState<string>();
+
+    const refreshMe = async () => {
+        const me = await APIService.me();
+
+        setProfilePicture(me.profilePicture);
     };
 
-    let styledVersion = Constants.expoConfig?.version;
-    if (Constants.expoConfig?.ios?.buildNumber === undefined) {
-        styledVersion += " " + Constants.expoConfig?.ios?.buildNumber;
-    }
+    const update = async () => {
+        if (profilePictureUri) {
+            await APIService.uploadProfilePicture(profilePictureUri, 'image/jpeg');
+        }
+    };
 
 
-    const [me, setMe] = useState<UserInfo | null>(null);
-    useFocusEffect(() => {
-        APIService.me().then((me) => {
-            setMe(me);
-        })
-    });
 
-    if (!me?.id) {
-        return (
-            <View style={styles.root}>
+    useEffect(() => {
+        refreshMe();
+    }, []);
 
-            </View>
-        );
-    }
 
-    const logOut = () => {
-        AsyncStorage.removeItem('token').then(r => {
-            router.replace("/(auth)/splash")
+    const editPfp = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images'],
+            quality: 0.5,
+            allowsEditing: true,
+            aspect: [1, 1],
+
         });
+        if (result.canceled) {
+            return;
+        }
+
+        const asset = result.assets[0];
+        const uri = asset.uri;
+
+        setProfilePictureUi(uri);
     };
 
 
     return (
         <View style={styles.root}>
-            <ConfirmationHeader label={"Cancel"}/>
-
+            <ConfirmationHeader label={"Cancel"} on_done={update}/>
+            <View style={styles.profile}>
+                <ProfilePicture width={128} height={128} profilePictureData={profilePicture} uriOverride={profilePictureUri}/>
+                <ClickableThemedText type={"navbar_location"} onPress={editPfp}>Edit</ClickableThemedText>
+            </View>
         </View>
     );
 }
@@ -59,31 +74,13 @@ function useStyles(theme: Theme) {
             flex: 1,
             backgroundColor: color(theme, 'background'),
             padding: 16,
-            justifyContent: "space-between"
+            gap: 16
         },
         profile: {
-            paddingVertical: 16,
-            paddingHorizontal: 8,
-            gap: 16,
-            flexDirection: "row",
-            alignItems: "stretch"
-        },
-        profile_name: {
-            alignItems: "flex-start",
             justifyContent: "center",
-            gap: 4
-        },
-        buttons: {
+            alignItems: "center",
             flexDirection: "column",
-            alignItems: "flex-start",
-            gap: 8,
-            alignSelf: "stretch"
-        },
-        footer: {
-            flex: 1,
-            justifyContent: 'flex-end',
-            paddingVertical: 48,
-            gap: 32
+            gap: 8
         }
     });
 }

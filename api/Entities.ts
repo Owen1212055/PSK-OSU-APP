@@ -11,6 +11,7 @@ export interface UserInfo {
     firstName: string;
     lastName: string;
     roles: Role[];
+    profilePicture: string;
 }
 
 export function getName(this: UserInfo): string {

@@ -1,17 +1,22 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {ThemedText} from '@/components/ThemedText';
-import {Theme, useTheme} from '@/hooks/useThemeColor';
-import {router} from "expo-router";
-import {X} from "lucide-react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { color, inverseColor, Theme, useTheme } from '@/hooks/useThemeColor';
+import { router } from 'expo-router';
+import {GestureResponderEvent} from "react-native/Libraries/Types/CoreEventTypes";
 
 interface ConfirmationHeaderProps {
     label?: string;
-    title?: string;
+    confirmation_label?: string;
     popup?: boolean;
+    on_done?: (event: GestureResponderEvent) => void;
 }
 
-export function ConfirmationHeader({ label, title, popup = false }: ConfirmationHeaderProps) {
+export function ConfirmationHeader({
+                                       label,
+                                       confirmation_label = "Done",
+                                       popup = false,
+                                       on_done
+                                   }: ConfirmationHeaderProps) {
     const styles = useStyles(useTheme());
     const onPress = () => router.back();
 
@@ -19,25 +24,17 @@ export function ConfirmationHeader({ label, title, popup = false }: Confirmation
         <View style={styles.navbar}>
             <View style={styles.navbarElement}>
                 {!popup && (
-                    <TouchableOpacity onPress={onPress}>
-                        <ThemedText type="navbar_location">{label}</ThemedText>
+                    <TouchableOpacity onPress={onPress} style={styles.cancel}>
+                        <Text style={styles.cancelText}>{label}</Text>
                     </TouchableOpacity>
                 )}
             </View>
 
             <View style={styles.navbarClose}>
-                {popup && (
-                    <TouchableOpacity onPress={onPress}>
-                        <X width={18} height={18} strokeWidth={2.5} />
-                    </TouchableOpacity>
-                )}
+                <TouchableOpacity onPress={on_done} style={styles.touchable}>
+                    <Text style={styles.confirmationText}>{confirmation_label}</Text>
+                </TouchableOpacity>
             </View>
-
-            {title && (
-                <View pointerEvents="none" style={styles.titleWrapper}>
-                    <ThemedText type="navbar_header">{title}</ThemedText>
-                </View>
-            )}
         </View>
     );
 }
@@ -45,30 +42,44 @@ export function ConfirmationHeader({ label, title, popup = false }: Confirmation
 function useStyles(theme: Theme) {
     return StyleSheet.create({
         navbar: {
-            height: 40,
-            paddingHorizontal: 4,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
         },
         navbarElement: {
-            paddingVertical: 8,
             justifyContent: 'center',
             alignItems: 'flex-start',
         },
         navbarClose: {
-            paddingVertical: 8,
             justifyContent: 'center',
-            alignItems: 'flex-start',
+            alignItems: 'flex-start'
         },
-        titleWrapper: {
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            justifyContent: 'center',
+        cancel: {
+            alignSelf: 'flex-start',
             alignItems: 'center',
-        }
+            justifyContent: 'center',
+            paddingHorizontal: 18,
+            paddingVertical: 12,
+            borderRadius: 32
+        },
+        touchable: {
+            alignSelf: 'flex-start',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingHorizontal: 18,
+            paddingVertical: 12,
+            backgroundColor: 'black',
+            borderRadius: 32
+        },
+        cancelText: {
+            fontSize: 14,
+            fontWeight: '500',
+            color: color(theme, 'text')
+        },
+        confirmationText: {
+            fontSize: 16,
+            fontWeight: '700',
+            color: inverseColor(theme, 'text')
+        },
     });
 }

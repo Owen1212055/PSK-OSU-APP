@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View,} from 'react-native';
 import {color, Theme, useTheme} from '@/hooks/useThemeColor';
 import {router} from "expo-router";
@@ -29,11 +29,11 @@ export default function DashboardScreen() {
 
 
     const [me, setMe] = useState<UserInfo | null>(null);
-    useFocusEffect(() => {
+    useEffect(() => {
         APIService.me().then((me) => {
             setMe(me);
         })
-    });
+    }, []);
 
     if (!me?.id) {
         return (
@@ -59,7 +59,7 @@ export default function DashboardScreen() {
         <View style={styles.root}>
             <NavBar title={"Settings"} popup={true}/>
             <View style={styles.profile}>
-                <ProfilePicture width={64} height={64} userId={me?.id}></ProfilePicture>
+                <ProfilePicture width={64} height={64} user={me}></ProfilePicture>
                 <View style={styles.profile_name}>
                     <ThemedText type={"profile_name"}>{me.firstName + " " + me.lastName}</ThemedText>
                     <ThemedText type={"profile_username"}>{me.username}</ThemedText>

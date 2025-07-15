@@ -19,7 +19,7 @@ export const LeaderboardEntry: React.FC<LeaderboardEntryProps> = ({ standing, po
         <View style={styles.container}>
             <View style={styles.user}>
                 <ThemedText style={styles.standing}>{standing}</ThemedText>
-                <ProfilePicture userId={brotherInfo.id}></ProfilePicture>
+                <ProfilePicture user={brotherInfo}></ProfilePicture>
                 <ThemedText style={styles.standing}>{brotherInfo.firstName}</ThemedText>
             </View>
             <ThemedText>{points}</ThemedText>

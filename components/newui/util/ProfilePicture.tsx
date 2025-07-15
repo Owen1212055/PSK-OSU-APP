@@ -1,29 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Image, View} from 'react-native';
 import APIService from '@/api/APIService';
+import {UserInfo} from "@/api/Entities";
 
 interface ProfilePictureProps {
-    userId: number;
+    user?: UserInfo;
+    profilePictureData?: string;
+    uriOverride?: string;
     width?: number;
     height?: number;
 }
 
-export default function ProfilePicture({userId, width = 32, height = 32}: ProfilePictureProps) {
-    const [uri, setUri] = useState<string | null>(null);
-    useEffect(() => {
-        APIService.getProfilePicture(userId)
-            .then(setUri)
-            .catch(console.error);
-    }, []);
+export default function ProfilePicture({user, profilePictureData, uriOverride, width = 32, height = 32}: ProfilePictureProps) {
+    if (!profilePictureData) {
+        profilePictureData = user?.profilePicture;
+    }
 
-    if (uri === null) {
+    if (profilePictureData === null) {
         return <ActivityIndicator />;
     }
 
     return (
         <View>
             <Image
-                source={{ uri }}
+                source={{uri: uriOverride ? uriOverride : `data:image/jpeg;base64,${profilePictureData}`}}
                 style={{ width: width, height: height, borderRadius: 64 }}
             />
         </View>
