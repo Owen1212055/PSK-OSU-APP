@@ -1,18 +1,9 @@
-import {Image, StyleSheet, Text, View,} from 'react-native';
-import {color, Theme, useTheme} from "@/hooks/useThemeColor";
+import {StyleSheet, Text, View,} from 'react-native';
+import {Theme, useTheme} from "@/hooks/useThemeColor";
 import React, {useState} from "react";
 import {ThemedText} from "@/components/ThemedText";
-import {CircleAlertIcon, CircleCheck, EllipsisVertical} from "lucide-react-native";
-import {PrimaryButton} from "@/components/newui/PrimaryButton";
-import {EventTag} from "@/components/newui/event/EventTag";
-import {
-    ActivesAndFriends,
-    ActivesOnly,
-    InviteOnly,
-    OpenToCampusTag,
-    RequiredEventTag
-} from "@/components/newui/event/EventTags";
-import {RedirectButton} from "@/components/newui/RedirectButton";
+import {RequiredEventTag} from "@/components/newui/event/EventTags";
+import {RedirectButton} from "@/components/newui/input/RedirectButton";
 import {useFocusEffect} from "@react-navigation/native";
 import APIService from "@/api/APIService";
 import {ScoreResult} from "@/api/Entities";

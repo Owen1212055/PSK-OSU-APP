@@ -1,18 +1,9 @@
-import {Image, StyleSheet, View,} from 'react-native';
-import {color, Theme, useTheme} from "@/hooks/useThemeColor";
+import {StyleSheet, View,} from 'react-native';
+import {Theme, useTheme} from "@/hooks/useThemeColor";
 import React from "react";
 import {ThemedText} from "@/components/ThemedText";
-import {CircleAlertIcon} from "lucide-react-native";
-import {PrimaryButton} from "@/components/newui/PrimaryButton";
-import {EventTag} from "@/components/newui/event/EventTag";
-import {
-    ActivesAndFriends,
-    ActivesOnly,
-    InviteOnly,
-    OpenToCampusTag,
-    RequiredEventTag
-} from "@/components/newui/event/EventTags";
-import {RedirectButton} from "@/components/newui/RedirectButton";
+import {RequiredEventTag} from "@/components/newui/event/EventTags";
+import {RedirectButton} from "@/components/newui/input/RedirectButton";
 import {BubbleCard} from "@/components/newui/BubbleCard";
 
 export default function EventTile() {
@@ -22,7 +13,7 @@ export default function EventTile() {
     return (<BubbleCard>
         <View style={styles.text_header}>
             <View style={styles.text_description}>
-                <ThemedText type="subtitle">Cock out</ThemedText>
+                <ThemedText type="subtitle">Cook out</ThemedText>
                 <ThemedText>69696 lake house</ThemedText>
             </View>
             <View style={styles.header_mirror}>

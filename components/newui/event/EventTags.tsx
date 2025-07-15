@@ -1,12 +1,7 @@
 // src/components/EventTags.tsx
 import React from 'react';
-import { useTheme, color } from '@/hooks/useThemeColor';
-import {
-    CircleAlertIcon,
-    InfoIcon,
-    CheckCircle2Icon,
-    ClockIcon,
-} from 'lucide-react-native';
+import {color, useTheme} from '@/hooks/useThemeColor';
+import {CircleAlertIcon,} from 'lucide-react-native';
 import {EventTag} from "@/components/newui/event/EventTag";
 
 /**

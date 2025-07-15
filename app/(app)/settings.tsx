@@ -1,25 +1,13 @@
 // SettingsScreen.tsx
 import React, {useEffect, useState} from 'react';
-import {
-    Keyboard,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View
-} from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
 import {ThemedText} from "@/components/ThemedText";
 import {UserInfo} from "@/api/Entities";
 import APIService from "@/api/APIService";
 import {usePredefined} from "@/hooks/useThemeColor";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {router} from "expo-router";
-import {PrimaryButton} from "@/components/newui/PrimaryButton";
 import ChangeProfilePicButton from "@/components/tiles/ChangeProfilePicButton";
-import ProfilePicture from "@/components/tiles/ProfilePicture";
 
 export default function SettingsScreen() {
     const [firstName, setFirstName] = useState<string>('');
@@ -48,7 +36,7 @@ export default function SettingsScreen() {
 
     const handleSave = () => {
         if (firstName && lastName) {
-            APIService.updateSettings({ firstName, lastName })
+            APIService.updateSettings({firstName, lastName})
                 .then((me: UserInfo) => {
                     setFirstName(me.firstName);
                     setLastName(me.lastName);
@@ -65,53 +53,42 @@ export default function SettingsScreen() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View>
-            <View style={[styles.formSection, { backgroundColor: bubbleBackground }]}>
-                <ThemedText type="title">Settings</ThemedText>
+            <View>
+                <View style={[styles.formSection, {backgroundColor: bubbleBackground}]}>
+                    <ThemedText type="title">Settings</ThemedText>
 
-                <View style={styles.inputGroup}>
-                    <Text style={[styles.label, { color: textColor }]}>First Name</Text>
-                    <TextInput
-                        style={[styles.input, { backgroundColor: bubbleBackground, color: textColor, borderColor }]}
-                        value={firstName}
-                        onChangeText={setFirstName}
-                        placeholder="First Name"
-                        placeholderTextColor={textColor}
-                        keyboardType={"ascii-capable"}
-                    />
+                    <View style={styles.inputGroup}>
+                        <Text style={[styles.label, {color: textColor}]}>First Name</Text>
+                        <TextInput
+                            style={[styles.input, {backgroundColor: bubbleBackground, color: textColor, borderColor}]}
+                            value={firstName}
+                            onChangeText={setFirstName}
+                            placeholder="First Name"
+                            placeholderTextColor={textColor}
+                            keyboardType={"ascii-capable"}
+                        />
+                    </View>
+
+                    <View style={styles.inputGroup}>
+                        <Text style={[styles.label, {color: textColor}]}>Last Name</Text>
+                        <TextInput
+                            style={[styles.input, {backgroundColor: bubbleBackground, color: textColor, borderColor}]}
+                            value={lastName}
+                            onChangeText={setLastName}
+                            placeholder="Last Name"
+                            placeholderTextColor={textColor}
+                            keyboardType={"ascii-capable"}
+                        />
+                    </View>
+
+                    <TouchableOpacity style={[styles.saveButton, {backgroundColor: specialButton}]}
+                                      onPress={handleSave}>
+                        <Text style={styles.saveButtonText}>Save Changes</Text>
+                    </TouchableOpacity>
                 </View>
 
-                <View style={styles.inputGroup}>
-                    <Text style={[styles.label, { color: textColor }]}>Last Name</Text>
-                    <TextInput
-                        style={[styles.input, { backgroundColor: bubbleBackground, color: textColor, borderColor }]}
-                        value={lastName}
-                        onChangeText={setLastName}
-                        placeholder="Last Name"
-                        placeholderTextColor={textColor}
-                        keyboardType={"ascii-capable"}
-                    />
-                </View>
-
-                <TouchableOpacity style={[styles.saveButton, { backgroundColor: specialButton }]} onPress={handleSave}>
-                    <Text style={styles.saveButtonText}>Save Changes</Text>
-                </TouchableOpacity>
+                <ChangeProfilePicButton></ChangeProfilePicButton>
             </View>
-
-            <View style={[styles.formSection, { backgroundColor: bubbleBackground }]}>
-                <TouchableOpacity style={[styles.saveButton, { backgroundColor: specialButton }]} onPress={onLogout}>
-                    <Text style={styles.saveButtonText}>Log Out</Text>
-                </TouchableOpacity>
-            </View>
-            {id != -1 ? <ProfilePicture userId={id}></ProfilePicture> : null}
-            <ChangeProfilePicButton></ChangeProfilePicButton>
-            <PrimaryButton title={"LEGACY VIEW"} onPress={(e) => {
-                router.replace("/(app)")
-            }}></PrimaryButton>
-            <PrimaryButton title={"NEW VIEW"} onPress={(e) => {
-                router.replace("/(new_app)/firstTab")
-            }}></PrimaryButton>
-        </View>
         </TouchableWithoutFeedback>
     );
 }
@@ -125,7 +102,7 @@ const styles = StyleSheet.create({
         padding: 20,
         elevation: 2,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.1,
         shadowRadius: 4,
     },

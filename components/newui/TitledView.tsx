@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { Theme, useTheme } from '@/hooks/useThemeColor';
+import {StyleSheet, View} from 'react-native';
+import {ThemedText} from '@/components/ThemedText';
+import {Theme, useTheme} from '@/hooks/useThemeColor';
 
 interface TitledViewProps {
   title: string;

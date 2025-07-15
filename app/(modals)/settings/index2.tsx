@@ -1,13 +1,13 @@
 import React from 'react';
-import {Image, StyleSheet, useColorScheme, View,} from 'react-native';
+import {Image, StyleSheet, View,} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {color, Theme, useTheme} from '@/hooks/useThemeColor';
 import {router} from "expo-router";
 import {PrimaryButton} from "@/components/newui/input/PrimaryButton";
+import {ThemedText} from "@/components/ThemedText";
 import Constants from "expo-constants";
-import {VersionComponent} from "@/components/newui/VersionComponent";
 
-export default function SplashScreen() {
+export default function IndexScreen() {
 
     const styles = useStyles(useTheme());
 
@@ -26,12 +26,11 @@ export default function SplashScreen() {
 
                 <View style={styles.login_area}>
 
-                    <Image style={styles.image}
-                           source={(useColorScheme() ?? 'light') == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
+                    <Image style={styles.image}/>
                     <PrimaryButton title="Sign in" onPress={handleLogin}/>
                 </View>
                 <View style={styles.footer}>
-                    <VersionComponent hasIcon={false}/>
+                    <ThemedText>{styledVersion}</ThemedText>
                 </View>
             </View>
         </SafeAreaView>
@@ -42,7 +41,8 @@ function useStyles(theme: Theme) {
     return StyleSheet.create({
         root: {
             flex: 1,
-            backgroundColor: color(theme, 'background')
+            backgroundColor: color(theme, 'background'),
+            padding: 16
         },
         image: {
             marginTop: 363,

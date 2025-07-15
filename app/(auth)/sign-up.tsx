@@ -6,11 +6,11 @@ import {color, Theme, useTheme} from '@/hooks/useThemeColor';
 import AuthService from "@/api/APIService";
 import {router} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {InputBox} from "@/components/newui/InputBox";
-import {PrimaryButton} from "@/components/newui/PrimaryButton";
+import {InputBox} from "@/components/newui/input/InputBox";
+import {PrimaryButton} from "@/components/newui/input/PrimaryButton";
 import {ThemedText} from "@/components/ThemedText";
 import {ContentCard} from '@/components/newui/ContentCard';
-import {NavBar} from "@/components/newui/NavBar";
+import {NavBar} from "@/components/newui/input/NavBar";
 
 export default function SignInScreen() {
 
@@ -29,14 +29,10 @@ export default function SignInScreen() {
             inviteCode: invite
         }).then((res) => {
             AsyncStorage.setItem('token', res.data.token);
-            router.replace("/(new_app)/firstTab")
+            router.replace("/(new_app)/events")
         }).catch((res) => {
             Alert.alert('Login Failure!', 'Failed to register: ' + res.response.data.message);
         });
-    };
-
-    const cancelSignup = () => {
-        router.back()
     };
 
     const styles = useStyles(useTheme());
@@ -45,7 +41,7 @@ export default function SignInScreen() {
         <SafeAreaView style={styles.root}>
             <View style={styles.content}>
 
-                <NavBar label="Back" onPress={cancelSignup}/>
+                <NavBar label="Back"/>
 
                 <ThemedText type={"title_new"}>Sign Up</ThemedText>
 

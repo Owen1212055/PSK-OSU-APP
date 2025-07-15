@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, GestureResponderEvent, StyleProp, TextStyle} from 'react-native';
+import {GestureResponderEvent, StyleProp, TextStyle, TouchableOpacity} from 'react-native';
 import {ThemedText, ThemedTextProps} from "@/components/ThemedText";
 
 type ClickableThemedTextProps = Omit<ThemedTextProps, 'onPress'> & {

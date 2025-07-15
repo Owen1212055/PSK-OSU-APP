@@ -1,14 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import HomeScreen from '../(app)/index';
-import Index from "@/app";
+import {StyleSheet, View} from 'react-native';
 import InactiveEvent from "@/components/newui/event/InactiveEvent";
 import {Theme, useTheme} from "@/hooks/useThemeColor";
-import {ThemedText} from "@/components/ThemedText";
 import EventTile from "@/components/newui/event/EventTile";
 import {TitledView} from "@/components/newui/TitledView";
 
-export default function FirstTab() {
+export default function Events() {
     const styles = useStyles(useTheme());
 
     return (

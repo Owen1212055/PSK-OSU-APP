@@ -1,18 +1,12 @@
-import React, { memo } from 'react';
-import {
-    Animated,
-    StyleSheet,
-    TouchableOpacity,
-    View,
-    Text,
-} from 'react-native';
+import React, {memo} from 'react';
+import {Animated, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import MaskedView from '@react-native-masked-view/masked-view';
 import {color, inverseColor, Theme, useTheme} from '@/hooks/useThemeColor';
 
-const PILL_WIDTH          = 103;
-const PILL_HEIGHT         = 43;
-const PILL_SPACING        = 0;
-const HEADER_PAD_LEFT     = 0;
+const PILL_WIDTH = 103;
+const PILL_HEIGHT = 43;
+const PILL_SPACING = 0;
+const HEADER_PAD_LEFT = 0;
 const HEADER_PAD_VERTICAL = 0;
 
 interface Props {
@@ -23,13 +17,13 @@ interface Props {
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-const PillHeader: React.FC<Props> = ({ labels, scrollX, onTabPress }) => {
-    const theme  = useTheme();
+const PillHeader: React.FC<Props> = ({labels, scrollX, onTabPress}) => {
+    const theme = useTheme();
     const styles = useStyles(theme);
 
 
     const translateX = scrollX.interpolate({
-        inputRange : [0, labels.length - 1],
+        inputRange: [0, labels.length - 1],
         outputRange: [0, (PILL_WIDTH + PILL_SPACING) * (labels.length - 1)],
         extrapolate: 'clamp',
     });
@@ -46,7 +40,7 @@ const PillHeader: React.FC<Props> = ({ labels, scrollX, onTabPress }) => {
                         onPress={() => onTabPress(i)}
                         activeOpacity={0.7}
                     >
-                        <Text style={[styles.text, { color: color(theme, 'textPrimary') }]}>
+                        <Text style={[styles.text, {color: color(theme, 'textPrimary')}]}>
                             {label}
                         </Text>
                     </TouchableOpacity>
@@ -61,7 +55,7 @@ const PillHeader: React.FC<Props> = ({ labels, scrollX, onTabPress }) => {
                         <AnimatedView
                             style={[
                                 styles.mask,
-                                { transform: [{ translateX }] },
+                                {transform: [{translateX}]},
                             ]}
                         />
                     }
@@ -70,14 +64,14 @@ const PillHeader: React.FC<Props> = ({ labels, scrollX, onTabPress }) => {
                     <View
                         style={[
                             StyleSheet.absoluteFillObject,
-                            { backgroundColor: color(theme, 'accent') },
+                            {backgroundColor: color(theme, 'accent')},
                         ]}
                     />
                     {/* Inverted labels */}
                     <View style={styles.overlayRow}>
                         {labels.map((label) => (
                             <View key={label} style={styles.pill}>
-                                <Text style={[styles.text, { color: inverseColor(theme, 'textPrimary')  }]}>{label}</Text>
+                                <Text style={[styles.text, {color: inverseColor(theme, 'textPrimary')}]}>{label}</Text>
                             </View>
                         ))}
                     </View>
@@ -92,34 +86,34 @@ export default memo(PillHeader);
 function useStyles(theme: Theme) {
     return StyleSheet.create({
         container: {
-            paddingLeft:     HEADER_PAD_LEFT,
+            paddingLeft: HEADER_PAD_LEFT,
             paddingVertical: HEADER_PAD_VERTICAL,
         },
         row: {
             flexDirection: 'row',
         },
         overlayRow: {
-            flexDirection:   'row',
-            paddingLeft:     HEADER_PAD_LEFT,
+            flexDirection: 'row',
+            paddingLeft: HEADER_PAD_LEFT,
             paddingVertical: HEADER_PAD_VERTICAL,
         },
         pill: {
-            width:          PILL_WIDTH,
-            height:         PILL_HEIGHT,
+            width: PILL_WIDTH,
+            height: PILL_HEIGHT,
             justifyContent: 'center',
-            alignItems:     'center',
-            marginRight:    PILL_SPACING,
+            alignItems: 'center',
+            marginRight: PILL_SPACING,
         },
         text: {
-            fontSize:   16,
+            fontSize: 16,
             fontWeight: '700',
         },
         mask: {
-            position:     'absolute',
-            top:          HEADER_PAD_VERTICAL,
-            left:         HEADER_PAD_LEFT,
-            width:        PILL_WIDTH,
-            height:       PILL_HEIGHT,
+            position: 'absolute',
+            top: HEADER_PAD_VERTICAL,
+            left: HEADER_PAD_LEFT,
+            width: PILL_WIDTH,
+            height: PILL_HEIGHT,
             borderRadius: PILL_HEIGHT / 2,
             backgroundColor: '#000',
         },

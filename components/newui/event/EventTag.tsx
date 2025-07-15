@@ -27,7 +27,7 @@ export const EventTag: React.FC<TagProps> = ({
                 styles.container,
                 {backgroundColor},
                 containerStyle,
-                style, // any other ViewProps
+                style,
             ]}
             {...rest}
         >

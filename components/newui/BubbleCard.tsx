@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {color, Theme, useTheme} from "@/hooks/useThemeColor";
 
 export const BubbleCard: React.FC<React.PropsWithChildren> = ({ children }) => {

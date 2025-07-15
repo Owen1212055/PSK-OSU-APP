@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Index from "@/app";
+import {StyleSheet, View} from 'react-native';
 import AdminPanel from "@/app/(app)/adminpanel";
 import HomeScreen from "@/app/(app)";
 import SettingsScreen from "@/app/(app)/settings";
@@ -17,5 +16,5 @@ export default function ThirdTab() {
 }
 
 const styles = StyleSheet.create({
-    text: { fontSize: 18 },
+    text: {fontSize: 18},
 });

@@ -1,13 +1,22 @@
-import React, { useRef, useCallback } from 'react';
-import {SafeAreaView, StyleSheet, Animated, View, useColorScheme, Image, ScrollView} from 'react-native';
+import React, {useCallback, useRef} from 'react';
+import {
+    Animated,
+    Image,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    useColorScheme,
+    View
+} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import PillHeader from './PillHeader';
-import FirstTab from './firstTab';
-import SecondTab from './secondTab';
+import Leaderboard from './leaderboard';
 import {color, Theme, useTheme} from "@/hooks/useThemeColor";
-import {BellIcon, Settings2Icon, SettingsIcon} from "lucide-react-native";
+import {BellIcon, Settings2Icon} from "lucide-react-native";
 import ThirdTab from "@/app/(new_app)/thirdTab";
-import Constants from "expo-constants";
+import {router} from "expo-router";
+import Events from "@/app/(new_app)/events";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
@@ -20,25 +29,31 @@ export default function PagerWithHeader() {
     const scrollX = Animated.add(pos, off);
 
     const onPageScroll = Animated.event(
-        [{ nativeEvent: { position: pos, offset: off } }],
-        { useNativeDriver: true }
+        [{nativeEvent: {position: pos, offset: off}}],
+        {useNativeDriver: true}
     );
 
     const pagerRef = useRef<PagerView>(null);
     const goTo = useCallback((idx: number) => {
         pagerRef.current?.setPage(idx);
     }, []);
-    const tabComponents = [<FirstTab />, <SecondTab />, <ThirdTab />];
+    const tabComponents = [<Events/>, <Leaderboard/>, <ThirdTab/>];
+    const openSettings = () => {
+        router.push("/(modals)/settings/dashboard");
+    };
 
     return (
         <View style={styles.root}>
             <SafeAreaView>
                 <View style={styles.content}>
                     <View style={styles.header}>
-                        <Image style={styles.image} source={(useColorScheme() ?? 'light') == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
+                        <Image style={styles.image}
+                               source={(useColorScheme() ?? 'light') == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
                         <View style={styles.icons}>
                             <BellIcon color={color(useTheme(), 'icon_color')}/>
-                            <Settings2Icon color={color(useTheme(), 'icon_color')}/>
+                            <TouchableOpacity onPress={openSettings}>
+                                <Settings2Icon color={color(useTheme(), 'icon_color')}/>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <PillHeader

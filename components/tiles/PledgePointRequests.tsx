@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { usePredefined } from '@/hooks/useThemeColor';
+import React, {useState} from 'react';
+import {ActivityIndicator, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {ThemedText} from '@/components/ThemedText';
+import {usePredefined} from '@/hooks/useThemeColor';
 import APIService from '@/api/APIService';
-import {PledgePointEntry, Role, UserInfo} from '@/api/Entities';
+import {PledgePointEntry, UserInfo} from '@/api/Entities';
 import {useFocusEffect} from "@react-navigation/native";
 
 interface CachedPledgePointEntry {

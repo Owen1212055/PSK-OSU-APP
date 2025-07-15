@@ -1,4 +1,4 @@
-import {Platform, StyleSheet, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {ThemedText} from "@/components/ThemedText";
 import {SlidersHorizontal} from "lucide-react-native";
 import React from "react";

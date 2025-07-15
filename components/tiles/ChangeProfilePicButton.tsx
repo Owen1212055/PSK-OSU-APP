@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Button, Alert, View } from 'react-native';
+import React from 'react';
+import {Alert, Button, View} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import APIService from '@/api/APIService';
 

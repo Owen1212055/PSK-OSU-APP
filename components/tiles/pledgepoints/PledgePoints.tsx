@@ -1,15 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  Platform, Modal,
-} from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { SlidersHorizontal } from 'lucide-react-native';
-import { usePredefined } from '@/hooks/useThemeColor';
+import React, {useState} from 'react';
+import {Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View,} from 'react-native';
+import {ThemedText} from '@/components/ThemedText';
+import {usePredefined} from '@/hooks/useThemeColor';
 import APIService from '@/api/APIService';
 import {PledgePointStanding, UserInfo} from "@/api/Entities";
 import {useFocusEffect} from "@react-navigation/native";

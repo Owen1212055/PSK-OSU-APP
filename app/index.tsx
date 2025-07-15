@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {router} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import APIService from "@/api/APIService";
@@ -15,7 +15,7 @@ export default function Index() {
                 return Promise.resolve();
             } else {
                 return APIService.me().then((data) => {
-                    router.replace('/(new_app)/secondTab');
+                    router.replace('/(new_app)/events');
                 }).catch((error) => {
                     Alert.alert('Login Failure!', 'Failed to login: ' + error.message);
                     router.replace('/(auth)/splash');

@@ -1,12 +1,12 @@
-import {Text, type TextProps, StyleSheet} from 'react-native';
+import {StyleSheet, Text, type TextProps} from 'react-native';
 
-import {color, useThemeColor} from '@/hooks/useThemeColor';
+import {useThemeColor} from '@/hooks/useThemeColor';
 import {Colors} from "@/constants/Colors";
 
 export type ThemedTextProps = TextProps & {
     lightColor?: string;
     darkColor?: string;
-    type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'subtitle_mini' | 'default_button' | "title_new" | "title_new_chunky" | "title_new_chunky_subtext" | "navbar_location" | "title_new_chunky_subtext_heavy";
+    type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'subtitle_mini' | 'default_button' | "title_new" | "title_new_chunky" | "title_new_chunky_subtext" | "navbar_location" | "title_new_chunky_subtext_heavy" | "navbar_header" | "profile_name" | "profile_username" | "content_header";
     colorType?: keyof typeof Colors.light;
 };
 
@@ -19,7 +19,7 @@ export function ThemedText({
                                ...rest
                            }: ThemedTextProps) {
     let color = useThemeColor({light: lightColor, dark: darkColor}, colorType);
-    if (type === 'title_new_chunky_subtext') {
+    if (type === 'title_new_chunky_subtext' || type === 'profile_username') {
         color = useThemeColor({light: lightColor, dark: darkColor}, 'subtitle');
     }
     return (
@@ -38,6 +38,10 @@ export function ThemedText({
                 type === 'title_new_chunky_subtext' ? styles.title_new_chunky_subtext : undefined,
                 type === 'navbar_location' ? styles.navbar_location : undefined,
                 type === 'title_new_chunky_subtext_heavy' ? styles.title_new_chunky_subtext_heavy : undefined,
+                type === 'navbar_header' ? styles.navbar_header : undefined,
+                type === 'profile_name' ? styles.profile_name : undefined,
+                type === 'profile_username' ? styles.profile_username : undefined,
+                type === 'content_header' ? styles.content_header : undefined,
                 style,
             ]}
             {...rest}
@@ -86,6 +90,11 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         lineHeight: 32,
     },
+    content_header: {
+        fontFamily: "Inter",
+        fontSize: 16,
+        fontWeight: "700"
+    },
     title_new_chunky_subtext: {
         fontFamily: "Inter",
         fontSize: 14,
@@ -96,10 +105,23 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 700,
     },
+    navbar_header: {
+        fontFamily: "Inter",
+        fontSize: 16,
+        fontWeight: 700,
+    },
     navbar_location: {
         fontFamily: "Inter",
         fontSize: 14,
         fontWeight: "500",
         lineHeight: 20,
     },
+    profile_name: {
+        fontSize: 16,
+        fontWeight: "700"
+    },
+    profile_username: {
+        fontSize: 14,
+        fontWeight: "500"
+    }
 });

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, TextInput, Alert, ActivityIndicator } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { usePredefined } from '@/hooks/useThemeColor';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, Alert, StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
+import {ThemedText} from '@/components/ThemedText';
+import {usePredefined} from '@/hooks/useThemeColor';
 import APIService from '@/api/APIService';
 import {Invite} from "@/api/Entities"; // make sure the APIService file exports the instance
 

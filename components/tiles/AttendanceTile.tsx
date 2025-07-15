@@ -1,25 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import {
-    Alert,
-    Modal,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, Modal, SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View,} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { ThemedText } from '@/components/ThemedText';
-import { usePredefined } from '@/hooks/useThemeColor';
+import {ThemedText} from '@/components/ThemedText';
+import {usePredefined} from '@/hooks/useThemeColor';
 import APIService from '@/api/APIService';
-import {
-    ActiveEventCategory,
-    getName,
-    GradedEventEntity,
-    GradedEventEntryWithBrother,
-    Role,
-} from '@/api/Entities';
+import {ActiveEventCategory, getName, GradedEventEntity, GradedEventEntryWithBrother, Role,} from '@/api/Entities';
 
 export default function GradedEventTile() {
     // ----- State ----- //

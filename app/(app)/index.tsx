@@ -1,14 +1,10 @@
-import React, {useEffect} from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 
-import StaticScrollPane from '@/components/StaticScrollPane';
-import { CurrentEvent } from '@/components/tiles/CurrentEvent';
-import { Points } from '@/components/tiles/Points';
-import { PledgePoints } from '@/components/tiles/pledgepoints/PledgePoints';
+import {CurrentEvent} from '@/components/tiles/CurrentEvent';
+import {PledgePoints} from '@/components/tiles/pledgepoints/PledgePoints';
 
-import { usePredefined } from '@/hooks/useThemeColor';
-import { StyleSheet } from 'react-native';
-import {Role} from "@/api/Entities";
+import {usePredefined} from '@/hooks/useThemeColor';
 
 export default function HomeScreen() {
     const bubbleBackground = usePredefined('bubble_background');
@@ -19,25 +15,16 @@ export default function HomeScreen() {
 
             {/* Row 2: Single big item (CurrentEvent) */}
             <View style={styles.rowSingle}>
-                <View style={[styles.card_big, { backgroundColor: bubbleBackground }]}>
-                    <CurrentEvent />
+                <View style={[styles.card_big, {backgroundColor: bubbleBackground}]}>
+                    <CurrentEvent/>
                 </View>
             </View>
 
-            {/* Row 3: Two small items side by side (Points + empty) */}
-            <View style={styles.rowDouble}>
-                <View style={[styles.card_small, { backgroundColor: bubbleBackground }]}>
-                    <Points />
-                </View>
-                <View style={[styles.card_small, { backgroundColor: bubbleBackground }]}>
-                    {/* Could place another small tile here, or leave empty */}
-                </View>
-            </View>
 
             {/* Row 4: Single big item (PledgePoints) */}
             <View style={styles.rowSingle}>
-                <View style={[styles.card_big, { backgroundColor: bubbleBackground }]}>
-                    <PledgePoints />
+                <View style={[styles.card_big, {backgroundColor: bubbleBackground}]}>
+                    <PledgePoints/>
                 </View>
             </View>
         </View>

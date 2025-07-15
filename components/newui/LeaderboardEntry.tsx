@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View} from 'react-native';
-import {color, inverseColor, Theme, useTheme} from '@/hooks/useThemeColor';
+import {StyleSheet, View} from 'react-native';
+import {Theme, useTheme} from '@/hooks/useThemeColor';
 import {UserInfo} from "@/api/Entities";
 import {ThemedText} from "@/components/ThemedText";
-import ProfilePicture from "@/components/tiles/ProfilePicture";
+import ProfilePicture from "@/components/newui/util/ProfilePicture";
 
 interface LeaderboardEntryProps {
     standing: number;

@@ -6,12 +6,12 @@ import {color, Theme, useTheme} from '@/hooks/useThemeColor';
 import AuthService from "@/api/APIService";
 import {router} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {InputBox} from "@/components/newui/InputBox";
-import {PrimaryButton} from "@/components/newui/PrimaryButton";
+import {InputBox} from "@/components/newui/input/InputBox";
+import {PrimaryButton} from "@/components/newui/input/PrimaryButton";
 import {ThemedText} from "@/components/ThemedText";
 import {ContentCard} from '@/components/newui/ContentCard';
-import {NavBar} from "@/components/newui/NavBar";
-import {ClickableThemedText} from "@/components/newui/ClickableThemedText";
+import {NavBar} from "@/components/newui/input/NavBar";
+import {ClickableThemedText} from "@/components/newui/input/ClickableThemedText";
 
 export default function LoginScreen() {
 
@@ -30,15 +30,11 @@ export default function LoginScreen() {
         }).then(async (res) => {
             await AsyncStorage.setItem('token', res.data.token);
 
-            router.replace("/(new_app)/firstTab")
-        }).catch((res) =>  {
+            router.replace("/(new_app)/events")
+        }).catch((res) => {
             console.error(res);
             Alert.alert('Login Failure!', 'Failed to login: ' + res.response.data.message);
         });
-    };
-
-    const cancelSignup = () => {
-        router.back();
     };
 
     const signUp = () => {
@@ -51,7 +47,7 @@ export default function LoginScreen() {
         <SafeAreaView style={styles.root}>
             <View style={styles.content}>
 
-                <NavBar label="Cancel" onPress={cancelSignup}/>
+                <NavBar label="Cancel"/>
 
                 <ThemedText type={"title_new"}>Sign In</ThemedText>
 
