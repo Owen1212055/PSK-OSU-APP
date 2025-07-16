@@ -3,15 +3,13 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import {ThemeProviderCtx, useThemeCtx} from "@/contexts/ThemeProvider";
 
+const NavigationWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { effective } = useThemeCtx();
+    const navTheme = effective === 'dark' ? DarkTheme : DefaultTheme;
+    return <ThemeProvider value={navTheme}>{children}</ThemeProvider>;
+};
 
 export default function RootLayout() {
-    const NavigationWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-        const { effective } = useThemeCtx();
-        const navTheme = effective === 'dark' ? DarkTheme : DefaultTheme;
-        return <ThemeProvider value={navTheme}>{children}</ThemeProvider>;
-    };
-
-
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProviderCtx>
