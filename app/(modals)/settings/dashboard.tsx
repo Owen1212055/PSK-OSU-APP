@@ -17,23 +17,15 @@ import {VersionComponent} from "@/components/newui/VersionComponent";
 export default function DashboardScreen() {
 
     const styles = useStyles(useTheme());
-
-    const handleLogin = () => {
-        router.push("/settings/index2")
-    };
-
-    let styledVersion = Constants.expoConfig?.version;
-    if (Constants.expoConfig?.ios?.buildNumber === undefined) {
-        styledVersion += " " + Constants.expoConfig?.ios?.buildNumber;
-    }
-
-
     const [me, setMe] = useState<UserInfo | null>(null);
-    useEffect(() => {
-        APIService.me().then((me) => {
-            setMe(me);
-        })
-    }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            APIService.me().then((me) => {
+                setMe(me);
+            })
+        }, [])
+    );
 
     if (!me?.id) {
         return (
@@ -52,6 +44,9 @@ export default function DashboardScreen() {
 
     const accountSettings = () => {
         router.push("./account")
+    };
+    const appearance = () => {
+        router.push("./appearance")
     };
 
 
@@ -72,7 +67,7 @@ export default function DashboardScreen() {
                 <SymbolButton icon={<BellRing/>} title={"Notifications"}
                               subtitle={"Set your notification boundaries"}></SymbolButton>
                 <SymbolButton icon={<Brush/>} title={"Appearance"}
-                              subtitle={"Change the look of the app"}></SymbolButton>
+                              onPress={appearance} subtitle={"Change the look of the app"}></SymbolButton>
             </View>
             <View style={styles.footer}>
                 <SymbolButton icon={<LogOut/>} title={"Sign Out"} onPress={logOut}></SymbolButton>

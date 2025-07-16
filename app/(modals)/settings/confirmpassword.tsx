@@ -3,7 +3,7 @@ import {Alert, GestureResponderEvent, StyleSheet, TouchableOpacity, View,} from 
 import {EyeIcon, EyeOffIcon} from 'lucide-react-native';
 import {color, Theme, useTheme} from '@/hooks/useThemeColor';
 import AuthService from "@/api/APIService";
-import {router} from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {InputBox} from "@/components/newui/input/InputBox";
 import {PrimaryButton} from "@/components/newui/input/PrimaryButton";
@@ -14,12 +14,15 @@ import {ClickableThemedText} from "@/components/newui/input/ClickableThemedText"
 import {RoundedInputBox} from "@/components/newui/input/RoundedInputBox";
 
 export default function ConfirmPassword() {
-
+    const [currentPassword, setCurrentPassword] = useState('');
     const handleConfirmationPage = async (e: GestureResponderEvent) => {
     };
 
     const signUp = () => {
-        router.push("./changepassword");
+        router.push({
+            pathname: "./changepassword",
+            params: { currentPassword }
+        });
     };
 
     const styles = useStyles(useTheme());
@@ -31,7 +34,7 @@ export default function ConfirmPassword() {
             <ThemedText type={"title_new_chunky"}>Confirm your current password</ThemedText>
 
             <View style={styles.login_area}>
-                <RoundedInputBox placeholder={"Current Password"}/>
+                <RoundedInputBox secureTextEntry={true} onChangeText={setCurrentPassword} placeholder={"Current Password"}/>
                 <PrimaryButton title="Next" onPress={signUp}/>
             </View>
         </View>

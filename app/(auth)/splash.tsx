@@ -6,6 +6,7 @@ import {router} from "expo-router";
 import {PrimaryButton} from "@/components/newui/input/PrimaryButton";
 import Constants from "expo-constants";
 import {VersionComponent} from "@/components/newui/VersionComponent";
+import {useThemeCtx} from "@/contexts/ThemeProvider";
 
 export default function SplashScreen() {
 
@@ -19,6 +20,7 @@ export default function SplashScreen() {
     if (Constants.expoConfig?.ios?.buildNumber === undefined) {
         styledVersion += " " + Constants.expoConfig?.ios?.buildNumber;
     }
+    const { effective } = useThemeCtx();
 
     return (
         <SafeAreaView style={styles.root}>
@@ -27,7 +29,7 @@ export default function SplashScreen() {
                 <View style={styles.login_area}>
 
                     <Image style={styles.image}
-                           source={(useColorScheme() ?? 'light') == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
+                           source={effective == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
                     <PrimaryButton title="Sign in" onPress={handleLogin}/>
                 </View>
                 <View style={styles.footer}>

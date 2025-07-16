@@ -4,19 +4,21 @@ import {color, Theme, useTheme} from '@/hooks/useThemeColor';
 import {LucideProps} from "lucide-react-native";
 
 interface RoundedInputBoxProps extends TextInputProps {
+    disabled?: boolean
 }
 
-export const RoundedInputBox: React.FC<RoundedInputBoxProps> = ({...textInputProps }) => {
+export const RoundedInputBox: React.FC<RoundedInputBoxProps> = ({disabled = false, ...textInputProps }) => {
     const theme = useTheme();
     const styles = createStyles(theme);
 
     return (
-        <View style={styles.button} {...textInputProps}>
+        <View style={styles.button}>
             <View style={styles.inputRow}>
                 <TextInput
-                    style={styles.input}
+                    style={disabled ? styles.input_disabled : styles.input}
                     placeholderTextColor="#888888"
                     autoCorrect={false}
+                    editable={!disabled}
                     {...textInputProps}
                 />
             </View>
@@ -27,7 +29,6 @@ export const RoundedInputBox: React.FC<RoundedInputBoxProps> = ({...textInputPro
 function createStyles(theme: Theme) {
     return StyleSheet.create({
         button: {
-            display: 'flex',
             paddingVertical: 16,
             paddingHorizontal: 24,
             gap: 16,
@@ -37,7 +38,7 @@ function createStyles(theme: Theme) {
             borderRadius: 32,
             borderColor: 'rgba(0, 0, 0, 0.10)',
             borderWidth: 2,
-            borderStyle: "solid",
+            borderStyle: "solid"
         },
         iconWrapper: {
             width: 24,
@@ -66,6 +67,11 @@ function createStyles(theme: Theme) {
             flex: 1,
             minWidth: 0,
             color: color(theme, 'textPrimary'),
+        },
+        input_disabled: {
+            flex: 1,
+            minWidth: 0,
+            color: color(theme, 'subtitle'),
         },
     });
 }

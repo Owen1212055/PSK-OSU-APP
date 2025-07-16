@@ -17,6 +17,7 @@ import {BellIcon, Settings2Icon} from "lucide-react-native";
 import ThirdTab from "@/app/(new_app)/thirdTab";
 import {router} from "expo-router";
 import Events from "@/app/(new_app)/events";
+import {useThemeCtx} from "@/contexts/ThemeProvider";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
@@ -42,13 +43,15 @@ export default function PagerWithHeader() {
         router.push("/(modals)/settings/dashboard");
     };
 
+    const { effective } = useThemeCtx();
+
     return (
         <View style={styles.root}>
             <SafeAreaView>
                 <View style={styles.content}>
                     <View style={styles.header}>
                         <Image style={styles.image}
-                               source={(useColorScheme() ?? 'light') == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
+                               source={effective == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
                         <View style={styles.icons}>
                             <BellIcon color={color(useTheme(), 'icon_color')}/>
                             <TouchableOpacity onPress={openSettings}>

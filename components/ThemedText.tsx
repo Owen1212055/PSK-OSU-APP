@@ -3,7 +3,8 @@ import {StyleSheet, Text, type TextProps} from 'react-native';
 import {useThemeColor} from '@/hooks/useThemeColor';
 import {Colors} from "@/constants/Colors";
 
-export type TextTheme = 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'subtitle_mini' | 'default_button' | "title_new" | "title_new_chunky" | "title_new_chunky_subtext" | "navbar_location" | "title_new_chunky_subtext_heavy" | "navbar_header" | "profile_name" | "profile_username" | "content_header";
+export type TextTheme = 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'subtitle_mini' | 'default_button' | "title_new" | "title_new_chunky" |
+    "title_new_chunky_subtext" | "subtitle_new_chunky_subtext_heavy" | "navbar_location" | "title_new_chunky_subtext_heavy" | "navbar_header" | "profile_name" | "profile_username" | "content_header";
 
 export type ThemedTextProps = TextProps & {
     lightColor?: string;
@@ -21,7 +22,7 @@ export function ThemedText({
                                ...rest
                            }: ThemedTextProps) {
     let color = useThemeColor({light: lightColor, dark: darkColor}, colorType);
-    if (type === 'title_new_chunky_subtext' || type === 'profile_username') {
+    if (type === 'title_new_chunky_subtext' || type === 'profile_username' || type === 'subtitle_new_chunky_subtext_heavy') {
         color = useThemeColor({light: lightColor, dark: darkColor}, 'subtitle');
     }
     return (
@@ -38,6 +39,7 @@ export function ThemedText({
                 type === 'title_new' ? styles.title_new : undefined,
                 type === 'title_new_chunky' ? styles.title_new_chunky : undefined,
                 type === 'title_new_chunky_subtext' ? styles.title_new_chunky_subtext : undefined,
+                type === 'subtitle_new_chunky_subtext_heavy' ? styles.title_new_chunky_subtext_heavy : undefined,
                 type === 'navbar_location' ? styles.navbar_location : undefined,
                 type === 'title_new_chunky_subtext_heavy' ? styles.title_new_chunky_subtext_heavy : undefined,
                 type === 'navbar_header' ? styles.navbar_header : undefined,

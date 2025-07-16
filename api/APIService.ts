@@ -75,6 +75,10 @@ class APIService {
         return axios.post<LoginResponse>(`${API_BASE_URL}/session/login`, payload);
     }
 
+    changePassword(payload: { password: string; newPassword: string; confirmPassword: string }) {
+        return this.authPost<string>(`${API_BASE_URL}/users/me/reset-password`, payload);
+    }
+
     async me(): Promise<UserInfo> {
         return this.authGet<UserInfo>(`${API_BASE_URL}/users/me`);
     }

@@ -35,6 +35,6 @@ function createStyles(theme: Theme) {
             fontSize: 16,
             fontWeight: '700',
             lineHeight: 20,
-        },
+        }
     });
 }

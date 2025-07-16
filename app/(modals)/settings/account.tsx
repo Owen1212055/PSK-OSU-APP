@@ -1,6 +1,6 @@
 import React, {use, useEffect, useState} from 'react';
-import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View,} from 'react-native';
-import {color, Theme, useTheme} from '@/hooks/useThemeColor';
+import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TouchableOpacity, View,} from 'react-native';
+import {color, inverseColor, Theme, useTheme} from '@/hooks/useThemeColor';
 import {SettingsPayload} from "@/api/Entities";
 import APIService from "@/api/APIService";
 import {ConfirmationHeader} from "@/components/newui/ConfirmationHeader";
@@ -12,7 +12,7 @@ import {InputBox} from "@/components/newui/input/InputBox";
 import {RoundedInputBox} from "@/components/newui/input/RoundedInputBox";
 import Constants from 'expo-constants';
 import {SymbolButton} from "@/components/newui/input/SymbolButton";
-import {RotateCcw} from "lucide-react-native";
+import {Lock, Pencil, RotateCcw} from "lucide-react-native";
 import {router} from "expo-router"; // for keyboardVerticalOffset
 
 export default function DashboardScreen() {
@@ -82,12 +82,19 @@ export default function DashboardScreen() {
                 <ConfirmationHeader label={"Cancel"} on_done={update} />
                 <ScrollView keyboardShouldPersistTaps="handled" automaticallyAdjustKeyboardInsets={true} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
                     <View style={styles.profile}>
-                        <ProfilePicture
-                            width={128}
-                            height={128}
-                            profilePictureData={profilePicture}
-                            uriOverride={locallySetPfp}
-                        />
+                        <View>
+                            <ProfilePicture
+                                width={128}
+                                height={128}
+                                profilePictureData={profilePicture}
+                                uriOverride={locallySetPfp}
+                            />
+                            <View style={styles.editIconHolder}>
+                                <TouchableOpacity onPress={editPfp} >
+                                    <Pencil color={styles.editIcon.color} strokeWidth={3.125}/>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                         <ClickableThemedText type={"navbar_location"} onPress={editPfp}>
                             Edit
                         </ClickableThemedText>
@@ -100,8 +107,10 @@ export default function DashboardScreen() {
                         <TitledView title={"Last Name"} titleTheme={"title_new_chunky_subtext_heavy"}>
                             <RoundedInputBox defaultValue={lastName}/>
                         </TitledView>
-                        <TitledView title={"Username"} titleTheme={"title_new_chunky_subtext_heavy"}>
-                            <RoundedInputBox defaultValue={username} editable={false}/>
+                        <TitledView title={"Username"} titleTheme={"subtitle_new_chunky_subtext_heavy"} headerIcon={
+                            <Lock color={color(useTheme(), 'subtitle')} size={18} strokeWidth={2.5}/>
+                        }>
+                            <RoundedInputBox defaultValue={username} disabled={true}/>
                         </TitledView>
                         <TitledView title={"Password"} titleTheme={"title_new_chunky_subtext_heavy"}>
                             <SymbolButton onPress={resetPassword} title={"Change Password"} icon={<RotateCcw/>}/>
@@ -125,8 +134,22 @@ function useStyles(theme: Theme) {
             flexDirection: "column",
             gap: 8
         },
+        editIconHolder: {
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            backgroundColor: inverseColor(theme, 'background'),
+            borderColor: color(theme, 'background'),
+            borderRadius: 40,
+            borderWidth: 2.5,
+            padding: 8.75,
+            overflow: "hidden" // Trim the anti-aliased border around background
+        },
+        editIcon: {
+            color: color(theme, 'background'),
+        },
         scrollView: {
-            backgroundColor: 'red'
+
         },
         options: {
             gap: 16
