@@ -24,7 +24,7 @@ function createStyles(theme: Theme) {
             padding: 16,
             alignItems: 'center',
             borderRadius: 32,
-            borderColor: 'rgba(0, 0, 0, 0.10)',
+            borderColor: theme.outer_background_color,
             borderWidth: 2,
             borderStyle: "solid",
         },

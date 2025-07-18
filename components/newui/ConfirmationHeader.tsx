@@ -68,7 +68,7 @@ function useStyles(theme: Theme) {
             justifyContent: 'center',
             paddingHorizontal: 18,
             paddingVertical: 12,
-            backgroundColor: 'black',
+            backgroundColor: color(theme, 'text'),
             borderRadius: 32
         },
         cancelText: {

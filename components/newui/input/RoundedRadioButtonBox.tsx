@@ -48,7 +48,7 @@ function createStyles(theme: Theme) {
             paddingHorizontal: 24,
             borderRadius: 32,
             borderWidth: 2,
-            borderColor: 'rgba(0,0,0,0.1)',
+            borderColor: theme.outer_background_color,
             gap: 16,
             alignSelf: 'stretch',
         },

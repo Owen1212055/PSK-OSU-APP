@@ -36,7 +36,7 @@ function createStyles(theme: Theme) {
             alignItems: "center",
             flexDirection: "row",
             borderRadius: 32,
-            borderColor: 'rgba(0, 0, 0, 0.10)',
+            borderColor: theme.outer_background_color,
             borderWidth: 2,
             borderStyle: "solid"
         },

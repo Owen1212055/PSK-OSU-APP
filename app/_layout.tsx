@@ -18,7 +18,7 @@ export default function RootLayout() {
                         headerShown: false,
                         animation: 'none'
                     }}>
-                        <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
+                        <Stack.Screen name="(modals)" options={{ presentation: 'modal', animation: 'default'}} />
                     </Stack>
                 </NavigationWrapper>
             </ThemeProviderCtx>

@@ -18,6 +18,7 @@ export const Colors = {
     urgent: '#E00000',
     open_to_campus: '#005777',
     invite_only: '#0058AD',
+    outer_background_color: 'rgba(0, 0, 0, 0.10)',
 
     text: '#11181C',
     //background: '#fff',
@@ -40,6 +41,7 @@ export const Colors = {
     urgent: '#E00000',
     open_to_campus: '#005777',
     invite_only: '#0058AD',
+    outer_background_color: 'rgba(236, 236, 242, 0.20)',
 
 
     text: '#ECEDEE',
