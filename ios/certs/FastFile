@@ -1,0 +1,31 @@
+default_platform(:ios)
+
+platform :ios do
+  lane :upload_testflight do
+    app_store_connect_api_key(
+        key_id: ENV['ASC_API_KEY_ID'],
+        issuer_id: ENV['ASC_API_KEY_ISSUER_ID'],
+        key_filepath: "./ios/certs/AuthKey.p8",
+     )
+
+    latest_build = latest_testflight_build_number(
+      app_identifier: "com.owen1212055.pskosu"
+    )
+
+    next_build = (latest_build || 0) + 1
+    UI.message("⏫ Incrementing build number to #{next_build}")
+
+    increment_build_number(
+      xcodeproj: './ios/PSKOSU/',
+      build_number: next_build
+    )
+
+    upload_to_testflight(
+      ipa: "app.ipa",
+      distribute_external: true,
+      groups: "Exec",
+      expire_previous_builds: true,
+      changelog: ENV['COMMIT_MESSAGE']
+    )
+  end
+end

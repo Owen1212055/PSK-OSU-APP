@@ -14,7 +14,9 @@ export const VersionComponent: React.FC<VersionProperties> = ({ hasIcon = true }
 
     let styledVersion = Constants.expoConfig?.version;
     if (Constants.expoConfig?.ios?.buildNumber === undefined) {
-        styledVersion += " " + Constants.expoConfig?.ios?.buildNumber;
+        const rawHash = Constants.expoConfig?.extra?.commitHash ?? '';
+        const shortHash = rawHash.slice(0, 7);
+        styledVersion += " | " + shortHash;
     }
 
     return (
