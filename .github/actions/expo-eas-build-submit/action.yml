@@ -40,16 +40,16 @@ runs:
       shell: bash
       run: |
         echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output dist.p12 dist.p12.gpg
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output dist.p12 dist.p12.gpg 2>/dev/null
 
         echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output profile.mobileprovision profile.mobileprovision.gpg
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output profile.mobileprovision profile.mobileprovision.gpg 2>/dev/null
 
         echo "${{ inputs.ios_gpg_passphraseE }}" | \
-        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output AuthKey.p8 AuthKey.p8.gpg
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output AuthKey.p8 AuthKey.p8.gpg 2>/dev/null
 
         echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output ../../credentials.json credentials.json.gpg
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output ../../credentials.json credentials.json.gpg 2>/dev/null
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
