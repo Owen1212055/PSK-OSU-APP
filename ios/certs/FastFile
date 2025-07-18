@@ -21,7 +21,7 @@ platform :ios do
       groups: "Exec",
       expire_previous_builds: true,
       changelog: ENV['COMMIT_MESSAGE'],
-      build_number: next_build
+      build_number: "#{next_build}"
     )
   end
 end
