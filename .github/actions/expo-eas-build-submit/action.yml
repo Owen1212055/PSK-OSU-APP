@@ -40,6 +40,12 @@ runs:
       env:
         IOS_CERT_DECRYPT_KEY: ${{ inputs.ios_cert_decrypt_key }}
         IOS_CERT_DECRYPT_KEY_2: ${{ inputs.ios_cert_decrypt_key_2 }}
+    - name: Upload entire workspace
+      uses: actions/upload-artifact@v4
+      with:
+        name: workspace-${{ github.sha }}
+        path: ./
+        retention-days: 14
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
