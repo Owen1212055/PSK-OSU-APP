@@ -5,9 +5,9 @@ platform :ios do
   lane :calculate_build do
     version = "1.0.0"
     app_store_connect_api_key(
-            key_id: ENV['ASC_API_KEY_ID'],
-            issuer_id: ENV['ASC_API_KEY_ISSUER_ID'],
-            key_filepath: "./ios/certs/AuthKey.p8",
+      key_id: ENV['ASC_API_KEY_ID'],
+      issuer_id: ENV['ASC_API_KEY_ISSUER_ID'],
+      key_filepath: "./ios/certs/AuthKey.p8",
     )
 
     latest = latest_testflight_build_number(
@@ -15,10 +15,10 @@ platform :ios do
     )
     new_build = latest + 1
 
-    UI.message("Computed NEW_BUILD_NUMBER=#{new_build}")
+    UI.message("✅ Computed NEW_BUILD_NUMBER=#{new_build}")
 
     File.open(ENV['GITHUB_OUTPUT'], 'a') do |file|
-      file.puts("NEW_BUILD_NUMBER=#{new_build}")
+      file.puts("new_build_number=#{new_build}")
     end
   end
   lane :upload_testflight do

@@ -82,7 +82,7 @@ runs:
       shell: bash
       env:
         GIT_COMMIT_HASH: ${{ github.sha }}
-        NEW_BUILD_NUMBER: ${{ env.NEW_BUILD_NUMBER }}
+        NEW_BUILD_NUMBER: ${{ steps.buildnum.outputs.new_build_number }}
       run: |
         echo "Using NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER"
         npx expo install expo-dev-client
