@@ -60,31 +60,45 @@ runs:
         token: ${{ inputs.expo_token }}
         expo-version: latest
         eas-version: latest
-    - name: 🏗 Install EAS local builds
-      shell: bash
-      run: npm i eas-cli-local-build-plugin
-    - name: Build app
-      shell: bash
-      env:
-        GIT_COMMIT_HASH: ${{ github.sha }}
-      run: |
-        npx expo install expo-dev-client
-        eas build --local --non-interactive \
-          --platform=${{ inputs.platform }} \
-          --profile=${{ inputs.profile }} \
-          --output="app.${{ inputs.platform == 'ios' && 'ipa' || 'apk' }}"
-    - name: Prepare Fastfile & Run Fastlane
+    - name: 🚀 Move the fastline file
       if: ${{ inputs.platform == 'ios' }}
       shell: bash
       run: |
         mkdir -p fastlane
         mv ios/certs/Fastfile fastlane/Fastfile
-        fastlane ios upload_testflight
+    - name: 🔢 Calculate NEXT build number
+      if: ${{ inputs.platform == 'ios' }}
+      id: buildnum
+      shell: bash
+      run: fastlane ios calculate_build
+      env:
+        ASC_API_KEY_ID: ${{ inputs.asc_api_key_id }}
+        ASC_API_KEY_ISSUER_ID: ${{ inputs.asc_api_key_issuer_id }}
+        NEW_BUILD_NUMBER: ${{ env.NEW_BUILD_NUMBER }}
+    - name: 🏗 Install EAS local builds
+      shell: bash
+      run: npm i eas-cli-local-build-plugin
+    - name: 🛠 Build app
+      shell: bash
+      env:
+        GIT_COMMIT_HASH: ${{ github.sha }}
+        NEW_BUILD_NUMBER: ${{ env.NEW_BUILD_NUMBER }}
+      run: |
+        echo "Using NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER"
+        npx expo install expo-dev-client
+        eas build --local --non-interactive \
+          --platform=${{ inputs.platform }} \
+          --profile=${{ inputs.profile }} \
+          --output="app.${{ inputs.platform == 'ios' && 'ipa' || 'apk' }}"
+    - name: 🚀 Upload to TestFlight
+      if: ${{ inputs.platform == 'ios' }}
+      shell: bash
+      run: fastlane ios upload_testflight
       env:
         ASC_API_KEY_ID: ${{ inputs.asc_api_key_id }}
         ASC_API_KEY_ISSUER_ID: ${{ inputs.asc_api_key_issuer_id }}
         COMMIT_MESSAGE: ${{ inputs.commit_message }}
-    - name: Submit app android
+    - name: 📦 Submit app (Android only)
       if: ${{ inputs.platform != 'ios' }}
       shell: bash
       env:

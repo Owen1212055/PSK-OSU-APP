@@ -1,6 +1,26 @@
 default_platform(:ios)
 
 platform :ios do
+
+  lane :calculate_build do
+    version = "1.0.0"
+    app_store_connect_api_key(
+            key_id: ENV['ASC_API_KEY_ID'],
+            issuer_id: ENV['ASC_API_KEY_ISSUER_ID'],
+            key_filepath: "./ios/certs/AuthKey.p8",
+    )
+
+    latest = latest_testflight_build_number(
+      app_identifier: "com.owen1212055.pskosu"
+    )
+    new_build = latest + 1
+
+    UI.message("Computed NEW_BUILD_NUMBER=#{new_build}")
+
+    File.open(ENV['GITHUB_OUTPUT'], 'a') do |file|
+      file.puts("NEW_BUILD_NUMBER=#{new_build}")
+    end
+  end
   lane :upload_testflight do
     app_store_connect_api_key(
         key_id: ENV['ASC_API_KEY_ID'],
@@ -12,16 +32,12 @@ platform :ios do
       app_identifier: "com.owen1212055.pskosu"
     )
 
-    next_build = (latest_build || 0) + 1
-    UI.message("⏫ Setting build to #{next_build}")
-
     upload_to_testflight(
       ipa: "app.ipa",
       distribute_external: true,
       groups: "Exec",
       expire_previous_builds: true,
-      changelog: ENV['COMMIT_MESSAGE'],
-      build_number: "#{next_build}"
+      changelog: ENV['COMMIT_MESSAGE']
     )
   end
 end

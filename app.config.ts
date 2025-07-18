@@ -16,6 +16,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ios: {
         supportsTablet: true,
         bundleIdentifier: "com.owen1212055.pskosu",
+        buildNumber: process.env.NEW_BUILD_NUMBER,
         infoPlist: {
             NSAppTransportSecurity: {
                 NSAllowsArbitraryLoads: true
