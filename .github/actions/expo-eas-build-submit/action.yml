@@ -79,7 +79,7 @@ runs:
       run: |
         mkdir -p fastlane
         mv ios/certs/Fastfile fastlane/Fastfile
-        bundle exec fastlane ios upload_testflight
+        fastlane ios upload_testflight
       env:
         ASC_API_KEY_ID: ${{ inputs.asc_api_key_id }}
         ASC_API_KEY_ISSUER_ID: ${{ inputs.asc_api_key_issuer_id }}
