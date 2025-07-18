@@ -42,6 +42,6 @@ jobs:
           cert_password: ${{ secrets.CERT_PASSWORD }}
           asc_api_key_id: ${{ secrets.ASC_API_KEY_ID }}
           asc_api_key_issuer_id: ${{ secrets.ASC_API_KEY_ISSUER_ID }}
-          ios_cert_decrypt_key: ${{ secrets.IOS_CERT_DECRYPT_KEY }}
-          ios_cert_decrypt_key_2: ${{ secrets.IOS_CERT_DECRYPT_KEY_2 }}
+          ios_gpg_passphrase: ${{ secrets.IOS_GPG_PASSPHRASE }}
+          ios_gpg_private_key: ${{ secrets.IOS_GPG_PRIVATE_KEY }}
           commit_message: ${{ github.event.head_commit.message }}

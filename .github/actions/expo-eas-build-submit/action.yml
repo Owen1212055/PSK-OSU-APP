@@ -32,14 +32,24 @@ runs:
         xcode-version: latest-stable
     - name: Checkout repo
       uses: actions/checkout@v4
-    - name: Decrypt certificate files
-      if: ${{ inputs.platform == 'ios' }}
+    - name: Import GPG private key
       shell: bash
-      run: ./decrypt_secret.sh
-      working-directory: ./ios/certs
-      env:
-        IOS_CERT_DECRYPT_KEY: ${{ inputs.ios_cert_decrypt_key }}
-        IOS_CERT_DECRYPT_KEY_2: ${{ inputs.ios_cert_decrypt_key_2 }}
+      run: echo "${{ inputs.ios_gpg_private_key }}" | gpg --batch --yes --import
+    - name: Decrypt iOS build credentials
+      working-directory: ios/certs
+      shell: bash
+      run: |
+        echo "${{ inputs.ios_gpg_passphrase }}" | \
+        gpg --quiet --batch --yes --passphrase-fd 0 --output dist.p12 dist.p12.gpg
+
+        echo "${{ inputs.ios_gpg_passphrase }}" | \
+        gpg --quiet --batch --yes --passphrase-fd 0 --output profile.mobileprovision profile.mobileprovision.gpg
+
+        echo "${{ inputs.ios_gpg_passphraseE }}" | \
+        gpg --quiet --batch --yes --passphrase-fd 0 --output AuthKey.p8 AuthKey.p8.gpg
+
+        echo "${{ inputs.ios_gpg_passphrase }}" | \
+        gpg --quiet --batch --yes --passphrase-fd 0 --output ../../credentials.json credentials.json.gpg
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
