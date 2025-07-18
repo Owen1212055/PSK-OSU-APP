@@ -34,22 +34,22 @@ runs:
       uses: actions/checkout@v4
     - name: Import GPG private key
       shell: bash
-      run: echo "${{ inputs.ios_gpg_private_key }}" | gpg --batch --yes --import
+      run: echo "${{ inputs.ios_gpg_private_key }}" | gpg --batch --yes --import --quiet
     - name: Decrypt iOS build credentials
       working-directory: ios/certs
       shell: bash
       run: |
         echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --passphrase-fd 0 --output dist.p12 dist.p12.gpg
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output dist.p12 dist.p12.gpg
 
         echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --passphrase-fd 0 --output profile.mobileprovision profile.mobileprovision.gpg
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output profile.mobileprovision profile.mobileprovision.gpg
 
         echo "${{ inputs.ios_gpg_passphraseE }}" | \
-        gpg --quiet --batch --yes --passphrase-fd 0 --output AuthKey.p8 AuthKey.p8.gpg
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output AuthKey.p8 AuthKey.p8.gpg
 
         echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --passphrase-fd 0 --output ../../credentials.json credentials.json.gpg
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output ../../credentials.json credentials.json.gpg
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
