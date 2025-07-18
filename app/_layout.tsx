@@ -14,7 +14,10 @@ export default function RootLayout() {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProviderCtx>
                 <NavigationWrapper>
-                    <Stack screenOptions={{ headerShown: false }}>
+                    <Stack screenOptions={{
+                        headerShown: false,
+                        animation: 'none'
+                    }}>
                         <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
                     </Stack>
                 </NavigationWrapper>

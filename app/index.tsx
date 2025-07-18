@@ -33,3 +33,7 @@ export default function Index() {
         </View>
     );
 }
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
