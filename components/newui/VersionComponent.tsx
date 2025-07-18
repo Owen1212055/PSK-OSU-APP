@@ -13,7 +13,7 @@ export const VersionComponent: React.FC<VersionProperties> = ({ hasIcon = true }
     const styles = createStyles(theme);
 
     let styledVersion = Constants.expoConfig?.version;
-    if (Constants.expoConfig?.ios?.buildNumber === undefined) {
+    if (true) {
         const rawHash = Constants.expoConfig?.extra?.commitHash ?? '';
         const shortHash = rawHash.slice(0, 7);
         styledVersion += " | " + shortHash;
