@@ -35,21 +35,6 @@ runs:
     - name: Import GPG private key
       shell: bash
       run: echo "${{ inputs.ios_gpg_private_key }}" | gpg --batch --yes --import --quiet
-    - name: Decrypt iOS build credentials
-      working-directory: ios/certs
-      shell: bash
-      run: |
-        echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output dist.p12 dist.p12.gpg 2>/dev/null
-
-        echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output profile.mobileprovision profile.mobileprovision.gpg 2>/dev/null
-
-        echo "${{ inputs.ios_gpg_passphraseE }}" | \
-        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output AuthKey.p8 AuthKey.p8.gpg 2>/dev/null
-
-        echo "${{ inputs.ios_gpg_passphrase }}" | \
-        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output ../../credentials.json credentials.json.gpg 2>/dev/null
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -60,6 +45,24 @@ runs:
         token: ${{ inputs.expo_token }}
         expo-version: latest
         eas-version: latest
+    - name: 🏗 Install EAS local builds
+      shell: bash
+      run: npm i eas-cli-local-build-plugin
+    - name: Decrypt iOS build credentials
+      working-directory: ios/certs
+      shell: bash
+      run: |
+        echo "${{ inputs.ios_gpg_passphrase }}" | \
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output dist.p12 dist.p12.gpg 2>/dev/null
+
+        echo "${{ inputs.ios_gpg_passphrase }}" | \
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output profile.mobileprovision profile.mobileprovision.gpg 2>/dev/null
+
+        echo "${{ inputs.ios_gpg_passphrase }}" | \
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output AuthKey.p8 AuthKey.p8.gpg 2>/dev/null
+
+        echo "${{ inputs.ios_gpg_passphrase }}" | \
+        gpg --quiet --batch --yes --trust-model always --passphrase-fd 0 --output ../../credentials.json credentials.json.gpg 2>/dev/null
     - name: 🚀 Move the fastline file
       if: ${{ inputs.platform == 'ios' }}
       shell: bash
@@ -75,9 +78,6 @@ runs:
         ASC_API_KEY_ID: ${{ inputs.asc_api_key_id }}
         ASC_API_KEY_ISSUER_ID: ${{ inputs.asc_api_key_issuer_id }}
         NEW_BUILD_NUMBER: ${{ env.NEW_BUILD_NUMBER }}
-    - name: 🏗 Install EAS local builds
-      shell: bash
-      run: npm i eas-cli-local-build-plugin
     - name: 🛠 Build app
       shell: bash
       env:
@@ -85,7 +85,6 @@ runs:
         NEW_BUILD_NUMBER: ${{ steps.buildnum.outputs.new_build_number }}
       run: |
         echo "Using NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER"
-        npx expo install expo-dev-client
         eas build --local --non-interactive \
           --platform=${{ inputs.platform }} \
           --profile=${{ inputs.profile }} \
