@@ -11,16 +11,6 @@ export default function HomeScreen() {
 
     return (
         <View>
-            {/* Row 1: Single item (Title) */}
-
-            {/* Row 2: Single big item (CurrentEvent) */}
-            <View style={styles.rowSingle}>
-                <View style={[styles.card_big, {backgroundColor: bubbleBackground}]}>
-                    <CurrentEvent/>
-                </View>
-            </View>
-
-
             {/* Row 4: Single big item (PledgePoints) */}
             <View style={styles.rowSingle}>
                 <View style={[styles.card_big, {backgroundColor: bubbleBackground}]}>

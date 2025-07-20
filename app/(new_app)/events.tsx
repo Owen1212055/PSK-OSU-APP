@@ -3,24 +3,42 @@ import {StyleSheet, View} from 'react-native';
 import InactiveEvent from "@/components/newui/event/InactiveEvent";
 import {Theme, useTheme} from "@/hooks/useThemeColor";
 import {TitledView} from "@/components/newui/TitledView";
-import {PlannedEvent} from "@/api/Entities";
+import {ActiveEvent, PlannedEvent} from "@/api/Entities";
 import APIService from "@/api/APIService";
 import {EventTile} from "@/components/newui/event/EventTile";
 import {BADGE_ATTENDANCE_LOOKUP, RequiredEventTag} from "@/components/newui/event/EventTags";
+import {CurrentEvent} from "@/components/tiles/CurrentEvent";
 
 export default function Events() {
     const styles = useStyles(useTheme());
 
     const [scores, setScores] = useState<PlannedEvent[]>([]);
+    const [activeEvents, setActiveEvents] = useState<ActiveEvent[]>([]);
     useEffect(() => {
         APIService.getAllPlannedEvents().then((me) => {
             setScores(me);
         });
+
+        APIService.getActiveEvents().then((me) => {
+            setActiveEvents(me);
+        });
+
+        // TODO: remove
+        setInterval(() => {
+            APIService.getAllPlannedEvents().then((me) => {
+                setScores(me);
+            });
+
+            APIService.getActiveEvents().then((me) => {
+                setActiveEvents(me);
+            });
+        }, 5000); // every 5 seconds refresh it
     }, []);
+
 
     return (
         <View style={styles.root}>
-            <InactiveEvent/>
+            {activeEvents.length == 0 ? <InactiveEvent/> : <CurrentEvent/>}
             <TitledView title={"Upcoming"}>
                 <View style={styles.events}>
                     {scores.map((entry, idx) => {
