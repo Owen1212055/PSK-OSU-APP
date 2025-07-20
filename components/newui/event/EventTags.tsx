@@ -3,6 +3,7 @@ import React from 'react';
 import {color, useTheme} from '@/hooks/useThemeColor';
 import {CircleAlertIcon,} from 'lucide-react-native';
 import {EventTag} from "@/components/newui/event/EventTag";
+import {AttendanceState} from "@/api/Entities";
 
 /**
  * Preconfigured event tags—no props needed, just import and use.
@@ -68,4 +69,12 @@ export const InviteOnly: React.FC = () => {
             textColor={textColor}
         />
     );
+};
+
+
+export const BADGE_ATTENDANCE_LOOKUP: Record<AttendanceState, React.ReactNode> = {
+    ACTIVES_ONLY: <ActivesOnly />,
+    ACTIVES_AND_ALUMNI: <ActivesAndFriends />,
+    OPEN_TO_CAMPUS: <OpenToCampusTag />,
+    INVITE_ONLY: <InviteOnly />,
 };

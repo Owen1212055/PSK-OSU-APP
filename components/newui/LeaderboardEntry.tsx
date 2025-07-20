@@ -19,10 +19,12 @@ export const LeaderboardEntry: React.FC<LeaderboardEntryProps> = ({ standing, po
         <View style={styles.container}>
             <View style={styles.user}>
                 <ThemedText style={styles.standing}>{standing}</ThemedText>
-                <ProfilePicture user={brotherInfo}></ProfilePicture>
-                <ThemedText style={styles.standing}>{brotherInfo.firstName}</ThemedText>
+                <View style={styles.labels}>
+                    <ProfilePicture user={brotherInfo}></ProfilePicture>
+                    <ThemedText type={'content_header'} >{brotherInfo.firstName}</ThemedText>
+                </View>
             </View>
-            <ThemedText>{points}</ThemedText>
+            <ThemedText type={'title_new_chunky_subtext_heavy'}>{points}</ThemedText>
         </View>
     );
 };
@@ -34,17 +36,20 @@ function createStyles(theme: Theme) {
             alignItems: "center",
             flexDirection: "row"
         },
-        text: {
-            justifyContent: "space-between",
-            alignItems: "center"
-        },
         user: {
             gap: 16,
             flexDirection: "row",
             alignItems: "center"
         },
+        labels: {
+            gap: 8,
+            flexDirection: "row",
+            alignItems: "center"
+        },
         standing: {
-            paddingRight: 15
+            width: 19,
+            textAlign: "right",
+            justifyContent: "flex-end"
         }
     });
 }

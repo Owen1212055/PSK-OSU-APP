@@ -2,6 +2,7 @@ import React from 'react';
 import type {TextStyle, ViewStyle} from 'react-native';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {color, Theme, useTheme} from '@/hooks/useThemeColor';
+import { BubbleFrame } from '../frame/OutlinedBubbleFrame';
 
 
 export interface RoundedRadioButtonBoxProps {
@@ -24,33 +25,31 @@ export const RoundedRadioButtonBox: React.FC<RoundedRadioButtonBoxProps> = ({
 
     return (
         <TouchableOpacity
-            style={[styles.button, style]}
             onPress={onToggle}
             accessibilityRole="radio"
             accessibilityState={{selected: active}}
             hitSlop={{top: 8, bottom: 8, left: 8, right: 8}}
         >
-            <View style={styles.outerCircle}>
-                {active && <View style={styles.innerCircle}/>}
-            </View>
+            <BubbleFrame>
+                <View style={styles.container}>
+                    <View style={styles.outerCircle}>
+                        {active && <View style={styles.innerCircle}/>}
+                    </View>
 
-            <Text style={[styles.text, labelStyle]}>{label}</Text>
+                    <Text style={[styles.text, labelStyle]}>{label}</Text>
+                </View>
+            </BubbleFrame>
         </TouchableOpacity>
     );
 };
 
 function createStyles(theme: Theme) {
     return StyleSheet.create({
-        button: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingVertical: 16,
-            paddingHorizontal: 24,
-            borderRadius: 32,
-            borderWidth: 2,
-            borderColor: theme.outer_background_color,
+        container: {
+            flexDirection: "row",
             gap: 16,
-            alignSelf: 'stretch',
+            alignSelf: "stretch",
+            alignItems: "center"
         },
         outerCircle: {
             width: 24,

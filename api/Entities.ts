@@ -107,3 +107,22 @@ export interface ScoreResult {
     min: number;
     max: number;
 }
+
+export interface GradedEventScoreboardEntry {
+    user: UserInfo;
+    place: number;
+    points: number;
+}
+
+export type AttendanceState = 'ACTIVES_ONLY' | 'ACTIVES_AND_ALUMNI' | 'OPEN_TO_CAMPUS' | 'INVITE_ONLY';
+
+
+export interface PlannedEvent {
+    id: string;
+    eventName: string;
+    locationname: string;
+    startTime: string; // ISO string date
+    endTime?: string; // ISO string date
+    policy: AttendanceState;
+    requiredAttendance: boolean;
+}

@@ -31,7 +31,7 @@ export const Colors = {
   },
   dark: {
     icon_color: '#ECECF2',
-    background: "#101011",
+    background: "#000000",
     card: "#202022",
     textPrimary: "#ECECF2",
     textSecondary: "#888",

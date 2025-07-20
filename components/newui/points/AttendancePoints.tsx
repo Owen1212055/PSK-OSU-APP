@@ -7,7 +7,7 @@ import {RedirectButton} from "@/components/newui/input/RedirectButton";
 import {useFocusEffect} from "@react-navigation/native";
 import APIService from "@/api/APIService";
 import {ScoreResult} from "@/api/Entities";
-import {BubbleCard} from "@/components/newui/BubbleCard";
+import {BubbleCard} from "@/components/newui/frame/BubbleCard";
 
 export default function AttendancePoints() {
     const theme = useTheme();
@@ -30,26 +30,31 @@ export default function AttendancePoints() {
     const scoreColor = getColorForPercentage(percentage);
 
     return (<BubbleCard>
-        <View style={styles.text_header}>
-            <View style={styles.percentageContainer}>
-                <Text style={[styles.points, { color: scoreColor }]}>{percentage}</Text>
-                <Text style={[styles.percentage, { color: scoreColor }]}>%</Text>
+        <View style={styles.container}>
+            <View style={styles.text_header}>
+                <View style={styles.percentageContainer}>
+                    <Text style={[styles.points, { color: scoreColor }]}>{percentage}</Text>
+                    <Text style={[styles.percentage, { color: scoreColor }]}>%</Text>
+                </View>
+
+                <View style={styles.header_mirror}>
+                    <RequiredEventTag/>
+                    <ThemedText>{score.min + "/" + score.max}</ThemedText>
+                </View>
             </View>
 
-            <View style={styles.header_mirror}>
-                <RequiredEventTag/>
-                <ThemedText>{score.min + "/" + score.max}</ThemedText>
+            <View style={styles.footer}>
+                <RedirectButton title={"View your point breakdown"}/>
             </View>
-        </View>
-
-        <View style={styles.footer}>
-            <RedirectButton title={"View your point breakdown"}/>
         </View>
     </BubbleCard>)
 }
 
 function useStyles(theme: Theme) {
     return StyleSheet.create({
+        container: {
+            gap: 20
+        },
         percentageContainer: {
             flexDirection: "row",
             alignItems: "baseline"

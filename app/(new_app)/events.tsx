@@ -1,25 +1,66 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import InactiveEvent from "@/components/newui/event/InactiveEvent";
 import {Theme, useTheme} from "@/hooks/useThemeColor";
-import EventTile from "@/components/newui/event/EventTile";
 import {TitledView} from "@/components/newui/TitledView";
+import {PlannedEvent} from "@/api/Entities";
+import APIService from "@/api/APIService";
+import {EventTile} from "@/components/newui/event/EventTile";
+import {BADGE_ATTENDANCE_LOOKUP, RequiredEventTag} from "@/components/newui/event/EventTags";
 
 export default function Events() {
     const styles = useStyles(useTheme());
+
+    const [scores, setScores] = useState<PlannedEvent[]>([]);
+    useEffect(() => {
+        APIService.getAllPlannedEvents().then((me) => {
+            setScores(me);
+        });
+    }, []);
 
     return (
         <View style={styles.root}>
             <InactiveEvent/>
             <TitledView title={"Upcoming"}>
                 <View style={styles.events}>
-                    <EventTile/>
-                    <EventTile/>
-                    <EventTile/>
+                    {scores.map((entry, idx) => {
+                        let badge;
+                        if (entry.requiredAttendance) {
+                            badge = <RequiredEventTag/>;
+                        } else {
+                            badge = BADGE_ATTENDANCE_LOOKUP[entry.policy];
+                        }
+                        const date = new Date(entry.startTime);
+                        const formatted = date.toLocaleDateString('en-US', {
+                            weekday: 'short',
+                            month: 'short',
+                            day: 'numeric',
+                        });
+
+                        return (<EventTile key={idx} badge={badge} title={entry.eventName} date={formatted} location={entry.locationname} time={formatTimeRange(date, entry.endTime ? new Date(entry.endTime) : undefined)}/>);
+                    })
+                    }
                 </View>
             </TitledView>
         </View>
     );
+}
+
+function formatTime(date: Date): string {
+    const raw = date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+    }).toLowerCase();
+
+    return raw.replace(':00', '');
+}
+
+function formatTimeRange(start: Date, end?: Date): string {
+    const startStr = formatTime(start);
+    if (!end) return startStr;
+    const endStr = formatTime(end);
+    return `${startStr} - ${endStr}`;
 }
 
 function useStyles(theme: Theme) {

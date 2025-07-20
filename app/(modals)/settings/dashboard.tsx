@@ -5,12 +5,12 @@ import {router} from "expo-router";
 import Constants from "expo-constants";
 import {NavBar} from "@/components/newui/input/NavBar";
 import ProfilePicture from "@/components/newui/util/ProfilePicture";
-import {UserInfo} from "@/api/Entities";
+import {Role, UserInfo} from "@/api/Entities";
 import APIService from "@/api/APIService";
 import {useFocusEffect} from "@react-navigation/native";
 import {ThemedText} from "@/components/ThemedText";
 import {SymbolButton} from "@/components/newui/input/SymbolButton";
-import {BellRing, Brush, CircleUserRound, LogOut} from "lucide-react-native";
+import {BellRing, Brush, CircleUserRound, HandPlatter, HandPlatterIcon, LogOut} from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {VersionComponent} from "@/components/newui/VersionComponent";
 
@@ -48,6 +48,9 @@ export default function DashboardScreen() {
     const appearance = () => {
         router.push("./appearance")
     };
+    const adminPanel = () => {
+        router.push("./adminpanel")
+    };
 
 
     return (
@@ -68,6 +71,10 @@ export default function DashboardScreen() {
                               subtitle={"Set your notification boundaries"}></SymbolButton>
                 <SymbolButton icon={<Brush/>} title={"Appearance"}
                               onPress={appearance} subtitle={"Change the look of the app"}></SymbolButton>
+                {
+                    me.roles.includes(Role.EXEC)
+                    && <SymbolButton icon={<HandPlatter/>} title={"Administration"} onPress={adminPanel} subtitle={"Open the administration menu, cool kids only!"}></SymbolButton>
+                }
             </View>
             <View style={styles.footer}>
                 <SymbolButton icon={<LogOut/>} title={"Sign Out"} onPress={logOut}></SymbolButton>

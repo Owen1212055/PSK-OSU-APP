@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View} from 'react-native';
 import {color, Theme, useTheme} from '@/hooks/useThemeColor';
 import {LucideProps} from "lucide-react-native";
+import {BubbleFrame} from "@/components/newui/frame/OutlinedBubbleFrame";
 
 interface SymbolButtonProps extends TouchableOpacityProps {
     title: string;
@@ -22,30 +23,30 @@ export const SymbolButton: React.FC<SymbolButtonProps> = ({title, icon, subtitle
         });
 
     return (
-        <TouchableOpacity style={styles.button} {...props}>
-            {renderedIcon}
-            <View style={styles.text_content}>
-                <Text style={styles.header}>{title}</Text>
-                {subtitle && <Text style={styles.description}>{subtitle}</Text>}
-            </View>
+        <TouchableOpacity style={styles.touch} {...props}>
+            <BubbleFrame>
+                <View style={styles.container}>
+                    {renderedIcon}
+                    <View style={styles.text_content}>
+                        <Text style={styles.header}>{title}</Text>
+                        {subtitle && <Text style={styles.description}>{subtitle}</Text>}
+                    </View>
+                </View>
+            </BubbleFrame>
         </TouchableOpacity>
     );
 };
 
 function createStyles(theme: Theme) {
     return StyleSheet.create({
-        button: {
-            display: 'flex',
-            paddingVertical: 16,
-            paddingHorizontal: 24,
+        touch: {
+            alignSelf: "stretch"
+        },
+        container: {
             gap: 16,
             alignSelf: "stretch",
             alignItems: "center",
-            flexDirection: "row",
-            borderRadius: 32,
-            borderColor: theme.outer_background_color,
-            borderWidth: 2,
-            borderStyle: "solid",
+            flexDirection: "row"
         },
         iconWrapper: {
             width: 24,

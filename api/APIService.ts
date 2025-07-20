@@ -3,8 +3,8 @@ import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     ActiveEvent, ActiveEventCategory, CheckInResponsePayload,
-    GradedEventEntity, GradedEventEntry, GradedEventEntryWithBrother,
-    Invite,
+    GradedEventEntity, GradedEventEntry, GradedEventEntryWithBrother, GradedEventScoreboardEntry,
+    Invite, PlannedEvent,
     PledgePointEntry,
     PledgePointStanding, ScoreResult,
     SetRolesPayload,
@@ -189,6 +189,15 @@ class APIService {
 
     async deletePledgePointRequest(id: number): Promise<void> {
         return this.authDelete<void>(`${API_BASE_URL}/pledgepoint-requests/${id}`);
+    }
+
+    // historical events
+    async getAllPlannedEvents(): Promise<PlannedEvent[]> {
+        return this.authGet<PlannedEvent[]>(`${API_BASE_URL}/events/planned`);
+    }
+
+    async getGradedEventsScoreboard(): Promise<GradedEventScoreboardEntry[]> {
+        return this.authGet<GradedEventScoreboardEntry[]>(`${API_BASE_URL}/gradedevents/scores`);
     }
 
     async getAllGradedEvents(): Promise<GradedEventEntity[]> {

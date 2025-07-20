@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {InputBox} from "@/components/newui/input/InputBox";
 import {PrimaryButton} from "@/components/newui/input/PrimaryButton";
 import {ThemedText} from "@/components/ThemedText";
-import {ContentCard} from '@/components/newui/ContentCard';
+import {ContentCard} from '@/components/newui/frame/ContentCard';
 import {NavBar} from "@/components/newui/input/NavBar";
 
 export default function SignInScreen() {

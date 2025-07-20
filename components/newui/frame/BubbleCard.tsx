@@ -12,7 +12,7 @@ function useStyles(theme: Theme) {
     return StyleSheet.create({
         container: {
             padding: 20,
-            gap: 24,
+
             borderRadius: 20,
             backgroundColor: color(theme, "bubble_background")
         }

@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, TouchableOpacityProps} from 'react-native';
 import {color, Theme, useTheme} from '@/hooks/useThemeColor';
+import {BubbleFrame} from "@/components/newui/frame/OutlinedBubbleFrame";
 
 interface PrimaryButtonProps extends TouchableOpacityProps {
     title: string;
@@ -11,23 +12,14 @@ export const RedirectButton: React.FC<PrimaryButtonProps> = ({ title, ...props }
     const styles = createStyles(theme);
 
     return (
-        <TouchableOpacity style={styles.button} {...props}>
+        <BubbleFrame {...props}>
             <Text style={styles.text}>{title} →</Text>
-        </TouchableOpacity>
+        </BubbleFrame>
     );
 };
 
 function createStyles(theme: Theme) {
     return StyleSheet.create({
-        button: {
-            display: 'flex',
-            padding: 16,
-            alignItems: 'center',
-            borderRadius: 32,
-            borderColor: theme.outer_background_color,
-            borderWidth: 2,
-            borderStyle: "solid",
-        },
         text: {
             color: color(theme, 'textPrimary'),
             textAlign: 'center',

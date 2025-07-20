@@ -15,12 +15,13 @@ inputs:
     required: true
   asc_api_key_issuer_id:
     required: true
-  ios_cert_decrypt_key:
-    required: false
-  ios_cert_decrypt_key_2:
-    required: false
   commit_message:
     required: false
+  ios_gpg_passphrase:
+    required: false
+  ios_gpg_private_key:
+    required: false
+
 
 runs:
   using: 'composite'

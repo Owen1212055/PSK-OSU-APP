@@ -8,7 +8,6 @@ export default function ThirdTab() {
     return (
         <View style={[{backgroundColor: color(useTheme(), 'inputBackground')}]}>
             <HomeScreen/>
-            <AdminPanel/>
         </View>
     );
 }
