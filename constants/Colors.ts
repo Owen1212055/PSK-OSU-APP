@@ -19,6 +19,8 @@ export const Colors = {
     open_to_campus: '#005777',
     invite_only: '#0058AD',
     outer_background_color: 'rgba(0, 0, 0, 0.10)',
+    checkIn: '#43AE00',
+    inner_shadow_shine: 'rgba(255, 255, 255, 0.40)',
 
     text: '#11181C',
     //background: '#fff',
@@ -42,7 +44,8 @@ export const Colors = {
     open_to_campus: '#005777',
     invite_only: '#0058AD',
     outer_background_color: 'rgba(236, 236, 242, 0.20)',
-
+    checkIn: '#9DFF13',
+    inner_shadow_shine: 'rgba(255, 255, 255, 0.40)',
 
     text: '#ECEDEE',
     //background: '#101011',

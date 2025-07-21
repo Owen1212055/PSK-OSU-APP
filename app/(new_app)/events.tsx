@@ -8,6 +8,7 @@ import APIService from "@/api/APIService";
 import {EventTile} from "@/components/newui/event/EventTile";
 import {BADGE_ATTENDANCE_LOOKUP, RequiredEventTag} from "@/components/newui/event/EventTags";
 import {CurrentEvent} from "@/components/tiles/CurrentEvent";
+import {ActiveEventTile} from "@/components/newui/event/ActiveEventTile";
 
 export default function Events() {
     const styles = useStyles(useTheme());
@@ -38,7 +39,29 @@ export default function Events() {
 
     return (
         <View style={styles.root}>
-            {activeEvents.length == 0 ? <InactiveEvent/> : <CurrentEvent/>}
+            {activeEvents.length == 0 ? <InactiveEvent/> : (
+                <View>
+                    {activeEvents.map((entry, idx) => {
+                        const date = new Date(entry.startTime);
+                        const formatted = date.toLocaleDateString('en-US', {
+                            weekday: 'short',
+                            month: 'short',
+                            day: 'numeric',
+                        });
+
+                        return (<ActiveEventTile
+                            key={idx}
+                            badge={undefined}
+                            title={entry.eventName}
+                            date={formatted}
+                            location={entry.location}
+                            time={formatTimeRange(date, entry.endTime ? new Date(entry.endTime) : undefined)}
+                            startTime={date}
+                        />);
+                    })
+                    }
+                </View>
+            )}
             <TitledView title={"Upcoming"}>
                 <View style={styles.events}>
                     {scores.map((entry, idx) => {

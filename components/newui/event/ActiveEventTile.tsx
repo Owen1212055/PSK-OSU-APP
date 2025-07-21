@@ -2,25 +2,28 @@ import {StyleSheet, View,} from 'react-native';
 import {Theme, useTheme} from "@/hooks/useThemeColor";
 import React from "react";
 import {ThemedText} from "@/components/ThemedText";
-import {RequiredEventTag} from "@/components/newui/event/EventTags";
 import {RedirectButton} from "@/components/newui/input/RedirectButton";
 import {BubbleCard} from "@/components/newui/frame/BubbleCard";
+import {PrimaryButton} from "@/components/newui/input/PrimaryButton";
+import {FancyCheckInButton} from "@/components/newui/input/FancyCheckInButton";
 
 interface EventTileProps {
-    badge?: React.ReactNode;
+    badge: React.ReactNode;
     date: string;
     time: string;
     title: string;
     location: string;
+    startTime: Date;
 }
 
-export const EventTile: React.FC<EventTileProps> = ({
-                                                        badge,
-                                                        date,
-                                                        time,
-                                                        title,
-                                                        location,
-                                                    }) => {
+export const ActiveEventTile: React.FC<EventTileProps> = ({
+                                                              badge,
+                                                              date,
+                                                              time,
+                                                              title,
+                                                              location,
+                                                              startTime,
+                                                          }) => {
     const theme = useTheme();
     const styles = useStyles(theme);
 
@@ -37,14 +40,11 @@ export const EventTile: React.FC<EventTileProps> = ({
                         <ThemedText>{time}</ThemedText>
                     </View>
                 </View>
+                <ThemedText>Starts in </ThemedText>
 
-                <View style={styles.text_header}>
-                    <View style={styles.badge_content}>
-                        {badge}
-                    </View>
-                    <View style={styles.header_mirror}>
-                        <RedirectButton title="View Details" />
-                    </View>
+                <View style={styles.buttons}>
+                    <FancyCheckInButton title={"I'm here!"}/>
+                    <RedirectButton title="Show Event Details"/>
                 </View>
             </View>
         </BubbleCard>
@@ -54,12 +54,15 @@ export const EventTile: React.FC<EventTileProps> = ({
 function useStyles(theme: Theme) {
     return StyleSheet.create({
         container: {
-            gap: 24
+            gap: 48
         },
         text_header: {
             alignSelf: "stretch",
             flexDirection: "row",
             justifyContent: 'space-between',
+            gap: 16
+        },
+        buttons: {
             gap: 16
         },
         badge_content: {
