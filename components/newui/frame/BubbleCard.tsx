@@ -14,7 +14,7 @@ function useStyles(theme: Theme) {
             padding: 20,
 
             borderRadius: 20,
-            backgroundColor: color(theme, "bubble_background")
+            backgroundColor: color(theme, "card")
         }
     });
 }

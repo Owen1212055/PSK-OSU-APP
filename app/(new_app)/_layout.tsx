@@ -41,7 +41,7 @@ export default function PagerWithHeader() {
     const goTo = useCallback((idx: number) => {
         pagerRef.current?.setPage(idx);
     }, []);
-    const tabComponents = [<Events/>, <Leaderboard/>, <ThirdTab/>];
+    const tabComponents = [<Events/>, <Leaderboard/>];
     const openSettings = () => {
         router.push("/(modals)/settings/dashboard");
     };
@@ -74,7 +74,7 @@ export default function PagerWithHeader() {
                         </View>
                     </View>
                     <PillHeader
-                        labels={['Events', 'Points', 'Polls']}
+                        labels={['Events', 'Points']}
                         scrollX={scrollX}
                         onTabPress={goTo}
                     />
