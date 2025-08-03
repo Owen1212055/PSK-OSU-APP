@@ -74,19 +74,17 @@ export type CheckInState = 'ON_TIME' | 'LATE' | 'ABSENT';
 
 export interface ActiveEvent {
     id: number;
-    eventName: string;
-    eventDesc: string;
     startTime: string; // ISO string date
     endTime: string;   // ISO string date
     location: string;
     latitude: number;
     longitude: number;
     checkedIn: Map<number, CheckInState>;
+    linkedPlannedEvent: string;
 }
 
 export interface CheckInResponsePayload {
-    success: boolean;
-    status: string;
+    response: 'TOO_FAR' | 'CHECKED_IN' | 'CHECKED_IN_LATE';
 }
 
 

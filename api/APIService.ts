@@ -196,6 +196,10 @@ class APIService {
         return this.authGet<PlannedEvent[]>(`${API_BASE_URL}/events/planned`);
     }
 
+    async getPlannedEvent(id: string): Promise<PlannedEvent> {
+        return this.authGet<PlannedEvent>(`${API_BASE_URL}/events/planned/${id}`);
+    }
+
     async getGradedEventsScoreboard(): Promise<GradedEventScoreboardEntry[]> {
         return this.authGet<GradedEventScoreboardEntry[]>(`${API_BASE_URL}/gradedevents/scores`);
     }

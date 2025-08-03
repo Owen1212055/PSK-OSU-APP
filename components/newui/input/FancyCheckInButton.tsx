@@ -37,9 +37,8 @@ function createStyles(theme: Theme) {
             color: inverseColor(theme, 'textPrimary'),
             textAlign: 'center',
             fontFamily: 'Inter',
-            fontSize: 16,
-            fontWeight: '700',
-            lineHeight: 20,
+            fontSize: 24,
+            fontWeight: '700'
         },
     });
 }

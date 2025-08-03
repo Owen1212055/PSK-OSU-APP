@@ -1,7 +1,7 @@
 import React, {use, useEffect, useState} from 'react';
 import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TouchableOpacity, View,} from 'react-native';
 import {color, inverseColor, Theme, useTheme} from '@/hooks/useThemeColor';
-import {SettingsPayload} from "@/api/Entities";
+import {SettingsPayload, UserInfo} from "@/api/Entities";
 import APIService from "@/api/APIService";
 import {ConfirmationHeader} from "@/components/newui/ConfirmationHeader";
 import ProfilePicture from "@/components/newui/util/ProfilePicture";
@@ -25,6 +25,8 @@ export default function DashboardScreen() {
     const [firstName, setFirstName] = useState<string>();
     const [lastName, setLastName] = useState<string>();
 
+    const [meReference, setMeReference] = useState<UserInfo>();
+
 
     const refreshMe = async () => {
         const me = await APIService.me();
@@ -34,6 +36,7 @@ export default function DashboardScreen() {
         setLastName(me.lastName)
 
         setUsername(me.username);
+        setMeReference(me);
     };
 
     const update = async () => {
@@ -84,6 +87,7 @@ export default function DashboardScreen() {
                     <View style={styles.profile}>
                         <View>
                             <ProfilePicture
+                                user={meReference}
                                 width={128}
                                 height={128}
                                 profilePictureData={profilePicture}

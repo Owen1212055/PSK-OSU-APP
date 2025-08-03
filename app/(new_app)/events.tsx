@@ -7,22 +7,38 @@ import {ActiveEvent, PlannedEvent} from "@/api/Entities";
 import APIService from "@/api/APIService";
 import {EventTile} from "@/components/newui/event/EventTile";
 import {BADGE_ATTENDANCE_LOOKUP, RequiredEventTag} from "@/components/newui/event/EventTags";
-import {CurrentEvent} from "@/components/tiles/CurrentEvent";
 import {ActiveEventTile} from "@/components/newui/event/ActiveEventTile";
 
 export default function Events() {
     const styles = useStyles(useTheme());
 
     const [scores, setScores] = useState<PlannedEvent[]>([]);
-    const [activeEvents, setActiveEvents] = useState<ActiveEvent[]>([]);
     useEffect(() => {
         APIService.getAllPlannedEvents().then((me) => {
             setScores(me);
         });
 
-        APIService.getActiveEvents().then((me) => {
-            setActiveEvents(me);
-        });
+    }, []);
+
+
+    const [resolvedEvents, setResolvedEvents] = useState<{active: ActiveEvent, planned: PlannedEvent}[]>([]);
+
+    useEffect(() => {
+        const fetchPlannedEvents = async () => {
+            const activeEvents = await APIService.getActiveEvents();
+            const results = await Promise.all(
+                activeEvents.map(async (active) => {
+                    const planned = await APIService.getPlannedEvent(active.linkedPlannedEvent);
+
+                    return {
+                        active,
+                        planned,
+                    };
+                })
+            );
+
+            setResolvedEvents(results);
+        };
 
         // TODO: remove
         setInterval(() => {
@@ -30,19 +46,19 @@ export default function Events() {
                 setScores(me);
             });
 
-            APIService.getActiveEvents().then((me) => {
-                setActiveEvents(me);
-            });
+            fetchPlannedEvents();
         }, 5000); // every 5 seconds refresh it
     }, []);
 
-
     return (
         <View style={styles.root}>
-            {activeEvents.length == 0 ? <InactiveEvent/> : (
+            {resolvedEvents.length == 0 ? <InactiveEvent/> : (
                 <View>
-                    {activeEvents.map((entry, idx) => {
-                        const date = new Date(entry.startTime);
+                    {resolvedEvents.map((entry, idx) => {
+                        const activeEvent = entry.active;
+                        const plannedEvent = entry.planned;
+
+                        const date = new Date(activeEvent.startTime);
                         const formatted = date.toLocaleDateString('en-US', {
                             weekday: 'short',
                             month: 'short',
@@ -51,12 +67,14 @@ export default function Events() {
 
                         return (<ActiveEventTile
                             key={idx}
+                            identifier={activeEvent.id}
                             badge={undefined}
-                            title={entry.eventName}
+                            title={plannedEvent.eventName}
                             date={formatted}
-                            location={entry.location}
-                            time={formatTimeRange(date, entry.endTime ? new Date(entry.endTime) : undefined)}
+                            location={activeEvent.location}
+                            time={formatTimeRange(date, activeEvent.endTime ? new Date(activeEvent.endTime) : undefined)}
                             startTime={date}
+                            activeEvent={activeEvent}
                         />);
                     })
                     }

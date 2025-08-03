@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import {CurrentEvent} from '@/components/tiles/CurrentEvent';
 import {PledgePoints} from '@/components/tiles/pledgepoints/PledgePoints';
 
 import {usePredefined} from '@/hooks/useThemeColor';
