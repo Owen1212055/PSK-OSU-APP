@@ -26,7 +26,7 @@ platform :ios do
       ipa: "app.ipa",
       distribute_external: true,
       groups: "Exec",
-      expire_previous_builds: true,
+      expire_previous_builds: false,
       changelog: ENV['COMMIT_MESSAGE']
     )
   end

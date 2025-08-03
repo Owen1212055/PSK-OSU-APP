@@ -21,7 +21,7 @@ export const LeaderboardEntry: React.FC<LeaderboardEntryProps> = ({ standing, po
                 <ThemedText style={styles.standing}>{standing}</ThemedText>
                 <View style={styles.labels}>
                     <ProfilePicture user={brotherInfo}></ProfilePicture>
-                    <ThemedText type={'content_header'} >{brotherInfo.firstName}</ThemedText>
+                    <ThemedText type={'content_header'} >{brotherInfo.firstName ? brotherInfo.firstName : brotherInfo.username}</ThemedText>
                 </View>
             </View>
             <ThemedText type={'title_new_chunky_subtext_heavy'}>{points}</ThemedText>
