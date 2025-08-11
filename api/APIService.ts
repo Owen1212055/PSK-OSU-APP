@@ -23,7 +23,7 @@ interface LoginResponse {
 
 const API_BASE_URL = __DEV__ ?
     "http://" + Constants.expoConfig?.hostUri?.split(':').shift()?.concat(':8080') + "/api" :
-    "http://api.pskosu.org:8080/api";
+    "http://psk-backend.owen1212055.com/api";
 
 
 class APIService {
