@@ -61,7 +61,7 @@ export default function PagerWithHeader() {
 
     return (
         <View style={styles.root}>
-            {activeEvents.length > 0 && <TopBanner message={"You are ALL DEAD"}/>}
+            {activeEvents.length > 0 && <TopBanner message={"Event active!"}/>}
             <SafeAreaView>
                 <View style={styles.content}>
                     <View style={styles.header}>
