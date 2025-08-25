@@ -67,7 +67,7 @@ export default function PagerWithHeader() {
                     <View style={styles.header}>
                         <Image style={styles.image} source={effective == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
                         <View style={styles.icons}>
-                            <BellIcon color={color(useTheme(), 'icon_color')}/>
+                            {/*<BellIcon color={color(useTheme(), 'icon_color')}/>*/}
                             <TouchableOpacity onPress={openSettings}>
                                 <Settings2Icon color={color(useTheme(), 'icon_color')}/>
                             </TouchableOpacity>

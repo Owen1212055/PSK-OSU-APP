@@ -38,14 +38,14 @@ export default function AttendancePoints() {
                 </View>
 
                 <View style={styles.header_mirror}>
-                    <RequiredEventTag/>
+                    {/*<RequiredEventTag/>*/}
                     <ThemedText>{score.min + "/" + score.max}</ThemedText>
                 </View>
             </View>
 
-            <View style={styles.footer}>
-                <RedirectButton title={"View your point breakdown"}/>
-            </View>
+            {/*<View style={styles.footer}>*/}
+            {/*    <RedirectButton title={"View your point breakdown"}/>*/}
+            {/*</View>*/}
         </View>
     </BubbleCard>)
 }

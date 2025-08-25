@@ -136,7 +136,7 @@ export const ActiveEventTile: React.FC<EventTileProps> = ({
                             </View>
                         ) : null
                     }
-                    <RedirectButton title="Show Event Details"/>
+                    {/*<RedirectButton title="Show Event Details"/>*/}
                 </View>
             </View>
         </BubbleCard>

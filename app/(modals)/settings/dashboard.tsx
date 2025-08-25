@@ -67,8 +67,8 @@ export default function DashboardScreen() {
                 <SymbolButton icon={<CircleUserRound/>} title={"Account"}
                               subtitle={"Manage your name, photo, and password"}
                               onPress={accountSettings}></SymbolButton>
-                <SymbolButton icon={<BellRing/>} title={"Notifications"}
-                              subtitle={"Set your notification boundaries"}></SymbolButton>
+                {/*<SymbolButton icon={<BellRing/>} title={"Notifications"}*/}
+                {/*              subtitle={"Set your notification boundaries"}></SymbolButton>*/}
                 <SymbolButton icon={<Brush/>} title={"Appearance"}
                               onPress={appearance} subtitle={"Change the look of the app"}></SymbolButton>
                 {

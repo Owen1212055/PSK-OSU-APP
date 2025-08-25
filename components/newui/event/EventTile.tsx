@@ -42,9 +42,9 @@ export const EventTile: React.FC<EventTileProps> = ({
                     <View style={styles.badge_content}>
                         {badge}
                     </View>
-                    <View style={styles.header_mirror}>
-                        <RedirectButton title="View Details" />
-                    </View>
+                    {/*<View style={styles.header_mirror}>*/}
+                    {/*    <RedirectButton title="View Details" />*/}
+                    {/*</View>*/}
                 </View>
             </View>
         </BubbleCard>
