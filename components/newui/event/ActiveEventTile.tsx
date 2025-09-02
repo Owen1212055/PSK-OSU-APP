@@ -114,7 +114,7 @@ export const ActiveEventTile: React.FC<EventTileProps> = ({
                         <ThemedText>{time}</ThemedText>
                     </View>
                 </View>
-                <ThemedText>Starts in </ThemedText>
+                {/*<ThemedText>Starts in {countdownLabel}</ThemedText>*/}
 
                 <View style={styles.buttons}>
                     {

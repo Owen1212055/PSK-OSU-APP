@@ -88,8 +88,10 @@ export default function PagerWithHeader() {
                 style={styles.pager}
             >
                 {tabComponents.map((TabComponent, index) => (
-                    <ScrollView key={index} style={styles.pager_content}>
-                        {TabComponent}
+                    <ScrollView key={index} style={styles.pager_content} bounces={false}>
+                        <SafeAreaView>
+                            {TabComponent}
+                        </SafeAreaView>
                     </ScrollView>
                 ))}
             </AnimatedPagerView>

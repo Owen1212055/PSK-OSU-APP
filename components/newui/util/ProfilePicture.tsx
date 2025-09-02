@@ -85,7 +85,7 @@ export default function ProfilePicture({user, profilePictureData, uriOverride, w
         profilePictureData = user?.profilePicture;
     }
 
-    if (!profilePictureData) {
+    if (!profilePictureData && !uriOverride) {
         const color = PASTEL_COLORS[user.id % PASTEL_COLORS.length];
         const fallbackIcon = PFPS[user.id % PFPS.length];
 

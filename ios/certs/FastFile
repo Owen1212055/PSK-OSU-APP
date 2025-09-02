@@ -25,7 +25,7 @@ platform :ios do
     upload_to_testflight(
       ipa: "app.ipa",
       distribute_external: true,
-      groups: "Exec",
+      groups: ["Exec", "Whole Group"],
       expire_previous_builds: false,
       changelog: ENV['COMMIT_MESSAGE']
     )
