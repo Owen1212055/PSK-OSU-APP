@@ -18,9 +18,6 @@ import ThirdTab from "@/app/(new_app)/thirdTab";
 import {router} from "expo-router";
 import Events from "@/app/(new_app)/events";
 import {useThemeCtx} from "@/contexts/ThemeProvider";
-import {TopBanner} from "@/components/newui/util/TopBanner";
-import {ActiveEvent, PlannedEvent} from "@/api/Entities";
-import APIService from "@/api/APIService";
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView);
 
@@ -48,20 +45,8 @@ export default function PagerWithHeader() {
 
     const { effective } = useThemeCtx();
 
-    const [activeEvents, setActiveEvents] = useState<ActiveEvent[]>([]);
-    useEffect(() => {
-        // TODO: remove
-        setInterval(() => {
-
-            APIService.getActiveEvents().then((me) => {
-                setActiveEvents(me);
-            });
-        }, 5000); // every 5 seconds refresh it
-    }, []);
-
     return (
         <View style={styles.root}>
-            {activeEvents.length > 0 && <TopBanner message={"Event active!"}/>}
             <SafeAreaView>
                 <View style={styles.content}>
                     <View style={styles.header}>

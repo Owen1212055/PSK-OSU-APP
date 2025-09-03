@@ -1,54 +1,60 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import InactiveEvent from "@/components/newui/event/InactiveEvent";
-import {Theme, useTheme} from "@/hooks/useThemeColor";
-import {TitledView} from "@/components/newui/TitledView";
-import {ActiveEvent, PlannedEvent} from "@/api/Entities";
+import { Theme, useTheme } from "@/hooks/useThemeColor";
+import { TitledView } from "@/components/newui/TitledView";
+import { ActiveEvent, PlannedEvent } from "@/api/Entities";
 import APIService from "@/api/APIService";
-import {EventTile} from "@/components/newui/event/EventTile";
-import {BADGE_ATTENDANCE_LOOKUP, RequiredEventTag} from "@/components/newui/event/EventTags";
-import {ActiveEventTile} from "@/components/newui/event/ActiveEventTile";
+import { EventTile } from "@/components/newui/event/EventTile";
+import { BADGE_ATTENDANCE_LOOKUP, RequiredEventTag } from "@/components/newui/event/EventTags";
+import { ActiveEventTile } from "@/components/newui/event/ActiveEventTile";
+import { useBanner } from "@/contexts/BannerProvider";
 
 export default function Events() {
     const styles = useStyles(useTheme());
+    const { showBanner, hideBanner } = useBanner();
 
-    const [scores, setScores] = useState<PlannedEvent[]>([]);
-    useEffect(() => {
-        APIService.getAllPlannedEvents().then((me) => {
-            setScores(me);
-        });
-
-    }, []);
-
-
-    const [resolvedEvents, setResolvedEvents] = useState<{active: ActiveEvent, planned: PlannedEvent}[]>([]);
+    const [plannedEvents, setPlannedEvents] = useState<PlannedEvent[]>([]);
+    const [activeEvents, setActiveEvents] = useState<ActiveEvent[]>([]);
+    const [resolvedEvents, setResolvedEvents] = useState<
+        { active: ActiveEvent; planned: PlannedEvent }[]
+    >([]);
 
     useEffect(() => {
-        const fetchPlannedEvents = async () => {
-            const activeEvents = await APIService.getActiveEvents();
-            const results = await Promise.all(
-                activeEvents.map(async (active) => {
-                    const planned = await APIService.getPlannedEvent(active.linkedPlannedEvent);
+        const fetchData = async () => {
+            const [actives, planned] = await Promise.all([
+                APIService.getActiveEvents(),
+                APIService.getAllPlannedEvents(),
+            ]);
 
-                    return {
-                        active,
-                        planned,
-                    };
-                })
+            setActiveEvents(actives);
+            setPlannedEvents(planned);
+
+            // fetch linked planned events for active ones
+            const pairs = await Promise.all(
+                actives.map(async (a) => ({
+                    active: a,
+                    planned: await APIService.getPlannedEvent(a.linkedPlannedEvent),
+                }))
             );
 
-            setResolvedEvents(results);
+            setResolvedEvents(pairs);
         };
 
-        // TODO: remove
-        setInterval(() => {
-            APIService.getAllPlannedEvents().then((me) => {
-                setScores(me);
-            });
-
-            fetchPlannedEvents();
-        }, 5000); // every 5 seconds refresh it
+        fetchData();
+        const id = setInterval(fetchData, 5000);
+        return () => {
+            clearInterval(id);
+        };
     }, []);
+
+    useEffect(() => {
+        if (activeEvents.length > 0) {
+            showBanner("Check in active!", "success");
+        } else {
+            hideBanner();
+        }
+    }, [activeEvents.length, showBanner, hideBanner]);
 
     return (
         <View style={styles.root}>
@@ -82,7 +88,7 @@ export default function Events() {
             )}
             <TitledView title={"Upcoming"}>
                 <View style={styles.events}>
-                    {scores.map((entry, idx) => {
+                    {plannedEvents.map((entry, idx) => {
                         let badge;
                         if (entry.requiredAttendance) {
                             badge = <RequiredEventTag/>;

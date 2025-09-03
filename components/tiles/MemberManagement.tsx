@@ -8,6 +8,7 @@ import {Picker} from '@react-native-picker/picker';
 import {useFocusEffect} from "@react-navigation/native";
 import APIService from "@/api/APIService";
 import {Role, UserInfo} from "@/api/Entities";
+import ProfilePicture from "@/components/newui/util/ProfilePicture";
 
 export default function MemberManagement() {
     const [brothers, setBrothers] = useState<UserInfo[]>([]);
@@ -97,6 +98,7 @@ export default function MemberManagement() {
 
             {brothers.map((bro, idx) => (
                 <View key={idx} style={[styles.broRow, {borderBottomColor: borderColor}]}>
+                    <ProfilePicture user={bro}/>
                     <ThemedText>{bro.username}</ThemedText>
                     <ThemedText>({bro.roles})</ThemedText>
 
@@ -115,12 +117,6 @@ export default function MemberManagement() {
                             <ThemedText style={styles.actionText}>Remove</ThemedText>
                         </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={styles.infoButton}
-                            onPress={() => handleInfo(bro)}
-                        >
-                            <ThemedText style={styles.actionText}>Info</ThemedText>
-                        </TouchableOpacity>
                     </View>
                 </View>
             ))}
