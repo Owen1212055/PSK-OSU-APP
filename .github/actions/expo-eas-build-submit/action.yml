@@ -80,7 +80,7 @@ runs:
       shell: bash
       run: |
         mkdir -p fastlane
-        mv ci/Fastfile fastlane/Fastfile
+        mv ci/FastFile fastlane/Fastfile
     - name: 🔢 Calculate NEXT build number
       if: ${{ inputs.platform == 'ios' }}
       id: buildnum
