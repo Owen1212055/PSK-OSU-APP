@@ -1,0 +1,116 @@
+name: 'expo-eas-build-submit'
+description: 'Build and submit Expo app using EAS with CI-managed secrets'
+inputs:
+  platform:
+    required: false
+    default: 'ios'
+  profile:
+    required: false
+    default: 'production'
+  expo_token:
+    required: true
+  cert_password:
+    required: true
+  asc_api_key_id:
+    required: true
+  asc_api_key_issuer_id:
+    required: true
+  commit_message:
+    required: false
+  ios_gpg_passphrase:
+    required: false
+  ios_gpg_private_key:
+    required: false
+
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Xcode
+      if: ${{ inputs.platform == 'ios' }}
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+    - name: Checkout repo
+      uses: actions/checkout@v4
+    - name: Import GPG private key
+      shell: bash
+      run: echo "${{ inputs.ios_gpg_private_key }}" | gpg --batch --yes --import --quiet
+    - name: Decrypt Build credentials
+      shell: bash
+      run: |
+        mkdir -p ios/certs
+        gpg --quiet --batch --yes --pinentry-mode loopback  \
+         --output ios/certs/dist.p12            --decrypt ci/dist.p12.gpg
+        gpg --quiet --batch --yes --pinentry-mode loopback  \
+         --output ios/certs/profile.mobileprovision --decrypt ci/profile.mobileprovision.gpg
+        gpg --quiet --batch --yes --pinentry-mode loopback  \
+         --output ios/certs/AuthKey.p8          --decrypt ci/AuthKey.p8.gpg
+        gpg --quiet --batch --yes --pinentry-mode loopback  \
+         --output credentials.json              --decrypt ci/credentials.json.gpg
+        gpg --quiet --batch --yes --pinentry-mode loopback  \
+         --output ci/android_cert.json          --decrypt ci/android_cert.json.gpg
+        gpg --quiet --batch --yes --pinentry-mode loopback  \
+         --output ci/android.keystore           --decrypt ci/android.keystore.gpg
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '23'
+    - name: Setup Expo & EAS
+      uses: expo/expo-github-action@8.2.1
+      with:
+        token: ${{ inputs.expo_token }}
+        expo-version: latest
+        eas-version: latest
+    - name: 🏗 Install EAS local builds
+      shell: bash
+      run: npm i eas-cli-local-build-plugin
+    - name: 🚀 Move the fastline file
+      shell: bash
+      run: |
+        mkdir -p fastlane
+        mv ci/Fastfile fastlane/Fastfile
+    - name: 🔢 Calculate NEXT build number
+      if: ${{ inputs.platform == 'ios' }}
+      id: buildnum
+      shell: bash
+      run: fastlane ios calculate_build
+      env:
+        ASC_API_KEY_ID: ${{ inputs.asc_api_key_id }}
+        ASC_API_KEY_ISSUER_ID: ${{ inputs.asc_api_key_issuer_id }}
+        NEW_BUILD_NUMBER: ${{ env.NEW_BUILD_NUMBER }}
+    - name: 🔢 Calculate NEXT Android versionCode
+      if: ${{ inputs.platform == 'android' }}
+      id: androidcode
+      shell: bash
+      run: fastlane android calculate_version_code
+      env:
+        GOOGLE_PLAY_JSON_KEY_FILE: android_cert.json   # from your decrypt step
+    - name: 🛠 Build app
+      shell: bash
+      env:
+        GIT_COMMIT_HASH: ${{ github.sha }}
+        NEW_BUILD_NUMBER: ${{ steps.buildnum.outputs.new_build_number }}
+      run: |
+        echo "Using NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER"
+        eas build --local --non-interactive \
+          --platform=${{ inputs.platform }} \
+          --profile=${{ inputs.profile }} \
+          --output="app.${{ inputs.platform == 'ios' && 'ipa' || 'aab' }}"
+    - name: 🚀 Upload to Google Play (Internal)
+      if: ${{ inputs.platform == 'android' }}
+      shell: bash
+      run: fastlane android upload_play
+      env:
+        GOOGLE_PLAY_JSON_KEY_FILE: ci/android_cert.json
+        COMMIT_MESSAGE: ${{ inputs.commit_message }}
+        PLAY_TRACK: internal
+        ANDROID_AAB_PATH: app.aab
+    - name: 🚀 Upload to TestFlight
+      if: ${{ inputs.platform == 'ios' }}
+      shell: bash
+      run: fastlane ios upload_testflight
+      env:
+        ASC_API_KEY_ID: ${{ inputs.asc_api_key_id }}
+        ASC_API_KEY_ISSUER_ID: ${{ inputs.asc_api_key_issuer_id }}
+        COMMIT_MESSAGE: ${{ inputs.commit_message }}

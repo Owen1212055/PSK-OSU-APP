@@ -1,0 +1,48 @@
+name: "Main Branch Build"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout action code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+      - name: Run Expo EAS Build & Submit
+        uses: ./.github/actions/expo-eas-build-submit
+        with:
+          platform: android
+          profile: production
+          expo_token: ${{ secrets.EXPO_TOKEN }}
+          cert_password: ${{ secrets.CERT_PASSWORD }}
+          asc_api_key_id: ${{ secrets.ASC_API_KEY_ID }}
+          asc_api_key_issuer_id: ${{ secrets.ASC_API_KEY_ISSUER_ID }}
+          ios_gpg_passphrase: ${{ secrets.IOS_GPG_PASSPHRASE }}
+          ios_gpg_private_key: ${{ secrets.IOS_GPG_PRIVATE_KEY }}
+          commit_message: ${{ github.event.head_commit.message }}
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout action code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+      - name: Run Expo EAS Build & Submit
+        uses: ./.github/actions/expo-eas-build-submit
+        with:
+          platform: ios
+          profile: production
+          expo_token: ${{ secrets.EXPO_TOKEN }}
+          cert_password: ${{ secrets.CERT_PASSWORD }}
+          asc_api_key_id: ${{ secrets.ASC_API_KEY_ID }}
+          asc_api_key_issuer_id: ${{ secrets.ASC_API_KEY_ISSUER_ID }}
+          ios_gpg_passphrase: ${{ secrets.IOS_GPG_PASSPHRASE }}
+          ios_gpg_private_key: ${{ secrets.IOS_GPG_PRIVATE_KEY }}
+          commit_message: ${{ github.event.head_commit.message }}

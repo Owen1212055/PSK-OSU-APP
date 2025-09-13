@@ -1,0 +1,81 @@
+default_platform(:ios)
+
+platform :ios do
+
+  APP_IDENTIFIER = "com.owen1212055.pskosu".freeze
+  ASC_KEY_ID = ENV["ASC_API_KEY_ID"]
+  ASC_ISSUER_ID = ENV["ASC_API_KEY_ISSUER_ID"]
+  ASC_KEY_PATH = "./ios/certs/AuthKey.p8".freeze
+
+  before_all do
+    app_store_connect_api_key(
+      key_id: ASC_KEY_ID,
+      issuer_id: ASC_ISSUER_ID,
+      key_filepath: ASC_KEY_PATH
+    )
+  end
+
+  lane :calculate_build do
+    new_build = latest_testflight_build_number(app_identifier: APP_IDENTIFIER) + 1
+    UI.success("✅ Computed NEW_BUILD_NUMBER=#{new_build}")
+    set_github_output(name: "new_build_number", value: new_build)
+  end
+
+  lane :upload_testflight do
+    upload_to_testflight(
+      ipa: "app.ipa",
+      distribute_external: true,
+      groups: ["Exec", "Whole Group"],
+      expire_previous_builds: false,
+      changelog: ENV['COMMIT_MESSAGE']
+    )
+  end
+
+  private_lane :set_github_output do |options|
+    sh("echo \"#{options[:name]}=#{options[:value]}\" >> #{ENV['GITHUB_OUTPUT']}")
+  end
+
+  # ===== ANDROID (new) =====
+  platform :android do
+    ANDROID_PACKAGE_NAME = "com.owen1212055.pskosu".freeze
+
+    # Decrypted in CI as: android_cert.json
+    JSON_KEY = ENV["GOOGLE_PLAY_JSON_KEY_FILE"] || "ci/android_cert.json"
+
+    desc "Compute next Android versionCode from Google Play and export to GitHub"
+    lane :calculate_version_code do
+      codes = google_play_track_version_codes(
+        package_name: ANDROID_PACKAGE_NAME,
+        track: ENV["PLAY_TRACK"] || "internal",
+        json_key: JSON_KEY
+      )
+      next_code = (codes&.max || 0) + 1
+      UI.success("✅ ANDROID_VERSION_CODE=#{next_code}")
+      set_github_output(name: "android_version_code", value: next_code)
+      next_code
+    end
+
+    desc "Upload already-built AAB to Google Play"
+    lane :upload_play do
+      aab_path = ENV["ANDROID_AAB_PATH"] || "app.aab"
+      UI.user_error!("AAB not found at #{aab_path}") unless File.exist?(aab_path)
+
+      upload_to_play_store(
+        package_name: ANDROID_PACKAGE_NAME,
+        aab: aab_path,
+        json_key: JSON_KEY,
+        track: ENV["PLAY_TRACK"] || "internal",
+        release_status: "completed",
+        whatsnew: ENV["COMMIT_MESSAGE"],
+        skip_upload_metadata: true,
+        skip_upload_images: true,
+        skip_upload_screenshots: true
+      )
+    end
+
+    private_lane :set_github_output do |options|
+      sh("echo \"#{options[:name]}=#{options[:value]}\" >> #{ENV['GITHUB_OUTPUT']}")
+    end
+  end
+
+end

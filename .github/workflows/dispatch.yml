@@ -1,0 +1,47 @@
+name: "Manual Dispatch Build"
+
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        type: choice
+        options:
+          - macos-latest
+          - ubuntu-latest
+        default: macos-latest
+      platform:
+        type: choice
+        options:
+          - ios
+          - android
+        default: ios
+      profile:
+        type: choice
+        options:
+          - development
+          - preview
+          - production
+        default: production
+
+jobs:
+  build:
+    runs-on: ${{ github.event.inputs.os }}
+    steps:
+      - name: Checkout action code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+
+      - name: Run Expo EAS Build & Submit
+        uses: ./.github/actions/expo-eas-build-submit
+        with:
+          platform: ${{ github.event.inputs.platform }}
+          profile: ${{ github.event.inputs.profile }}
+          expo_token: ${{ secrets.EXPO_TOKEN }}
+          cert_password: ${{ secrets.CERT_PASSWORD }}
+          asc_api_key_id: ${{ secrets.ASC_API_KEY_ID }}
+          asc_api_key_issuer_id: ${{ secrets.ASC_API_KEY_ISSUER_ID }}
+          ios_gpg_passphrase: ${{ secrets.IOS_GPG_PASSPHRASE }}
+          ios_gpg_private_key: ${{ secrets.IOS_GPG_PRIVATE_KEY }}
+          commit_message: ${{ github.event.head_commit.message }}
