@@ -40,18 +40,29 @@ runs:
       shell: bash
       run: |
         mkdir -p ios/certs
-        gpg --quiet --batch --yes --pinentry-mode loopback  \
-         --output ios/certs/dist.p12            --decrypt ci/dist.p12.gpg
-        gpg --quiet --batch --yes --pinentry-mode loopback  \
-         --output ios/certs/profile.mobileprovision --decrypt ci/profile.mobileprovision.gpg
-        gpg --quiet --batch --yes --pinentry-mode loopback  \
-         --output ios/certs/AuthKey.p8          --decrypt ci/AuthKey.p8.gpg
-        gpg --quiet --batch --yes --pinentry-mode loopback  \
-         --output credentials.json              --decrypt ci/credentials.json.gpg
-        gpg --quiet --batch --yes --pinentry-mode loopback  \
-         --output ci/android_cert.json          --decrypt ci/android_cert.json.gpg
-        gpg --quiet --batch --yes --pinentry-mode loopback  \
-         --output ci/android.keystore           --decrypt ci/android.keystore.gpg
+        echo "${{ inputs.ios_gpg_passphrase }}" | gpg --quiet --batch --yes --pinentry-mode loopback \
+        --passphrase-fd 0 \
+        --output ios/certs/dist.p12 --decrypt ci/dist.p12.gpg
+        
+        echo "${{ inputs.ios_gpg_passphrase }}" | gpg --quiet --batch --yes --pinentry-mode loopback \
+        --passphrase-fd 0 \
+        --output ios/certs/profile.mobileprovision --decrypt ci/profile.mobileprovision.gpg
+        
+        echo "${{ inputs.ios_gpg_passphrase }}" | gpg --quiet --batch --yes --pinentry-mode loopback \
+        --passphrase-fd 0 \
+        --output ios/certs/AuthKey.p8 --decrypt ci/AuthKey.p8.gpg
+        
+        echo "${{ inputs.ios_gpg_passphrase }}" | gpg --quiet --batch --yes --pinentry-mode loopback \
+        --passphrase-fd 0 \
+        --output credentials.json --decrypt ci/credentials.json.gpg
+        
+        echo "${{ inputs.ios_gpg_passphrase }}" | gpg --quiet --batch --yes --pinentry-mode loopback \
+        --passphrase-fd 0 \
+        --output ci/android_cert.json --decrypt ci/android_cert.json.gpg
+        
+        echo "${{ inputs.ios_gpg_passphrase }}" | gpg --quiet --batch --yes --pinentry-mode loopback \
+        --passphrase-fd 0 \
+        --output ci/android.keystore --decrypt ci/android.keystore.gpg
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
