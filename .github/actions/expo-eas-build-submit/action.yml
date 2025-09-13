@@ -96,7 +96,7 @@ runs:
       shell: bash
       run: fastlane android calculate_version_code
       env:
-        GOOGLE_PLAY_JSON_KEY_FILE: android_cert.json   # from your decrypt step
+        GOOGLE_PLAY_JSON_KEY_FILE: ci/android_cert.json   # from your decrypt step
     - name: 🛠 Build app
       shell: bash
       env:
