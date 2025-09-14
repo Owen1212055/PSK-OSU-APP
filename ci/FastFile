@@ -44,20 +44,30 @@ platform :ios do
 
     desc "Compute next Android versionCode from Google Play and export to GitHub"
     lane :calculate_version_code do
+      next_code = 1
+
       begin
         codes = google_play_track_version_codes(
           package_name: ANDROID_PACKAGE_NAME,
-          track: ENV["PLAY_TRACK"] || "internal",
+          track: DEFAULT_TRACK,
           json_key: JSON_KEY
         )
-        next_code = (codes&.max || 0) + 1
+        next_code = (Array(codes).max || 0) + 1
       rescue => e
-        UI.error("❌ Failed to fetch version codes: #{e.message}")
-        next_code = 1
+        # Don’t fail the lane; just warn and keep next_code = 1
+        UI.important("Google Play lookup failed, defaulting ANDROID_VERSION_CODE=1: #{e.message}")
       end
 
       UI.success("✅ ANDROID_VERSION_CODE=#{next_code}")
-      set_github_output(name: "android_version_code", value: next_code)
+
+      # Prefer modern GitHub Actions output file if present
+      if ENV["GITHUB_OUTPUT"] && !ENV["GITHUB_OUTPUT"].empty?
+        sh(%Q(echo "android_version_code=#{next_code}" >> "$GITHUB_OUTPUT"))
+      else
+        # Fallback: legacy helper if you still want it
+        set_github_output(name: "android_version_code", value: next_code)
+      end
+
       next_code
     end
 
