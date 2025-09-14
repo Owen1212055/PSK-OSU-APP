@@ -67,7 +67,6 @@ platform :ios do
     desc "Upload already-built AAB to Google Play"
     lane :upload_play do
       aab_path = ENV["ANDROID_AAB_PATH"] || "app.aab"
-      UI.user_error!("AAB not found at #{aab_path}") unless File.exist?(aab_path)
 
       upload_to_play_store(
         package_name: ANDROID_PACKAGE_NAME,
