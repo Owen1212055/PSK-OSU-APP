@@ -30,7 +30,7 @@ runs:
       if: ${{ inputs.platform == 'ios' }}
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: latest-stable
+        xcode-version: '16.2'
     - name: Checkout repo
       uses: actions/checkout@v4
     - name: Import GPG private key

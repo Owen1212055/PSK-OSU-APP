@@ -44,12 +44,18 @@ platform :ios do
 
     desc "Compute next Android versionCode from Google Play and export to GitHub"
     lane :calculate_version_code do
-      codes = google_play_track_version_codes(
-        package_name: ANDROID_PACKAGE_NAME,
-        track: ENV["PLAY_TRACK"] || "internal",
-        json_key: JSON_KEY
-      )
-      next_code = (codes&.max || 0) + 1
+      begin
+        codes = google_play_track_version_codes(
+          package_name: ANDROID_PACKAGE_NAME,
+          track: ENV["PLAY_TRACK"] || "internal",
+          json_key: JSON_KEY
+        )
+        next_code = (codes&.max || 0) + 1
+      rescue => e
+        UI.error("❌ Failed to fetch version codes: #{e.message}")
+        next_code = 1
+      end
+
       UI.success("✅ ANDROID_VERSION_CODE=#{next_code}")
       set_github_output(name: "android_version_code", value: next_code)
       next_code
