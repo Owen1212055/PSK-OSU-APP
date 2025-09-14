@@ -101,7 +101,7 @@ runs:
       shell: bash
       env:
         GIT_COMMIT_HASH: ${{ github.sha }}
-        NEW_BUILD_NUMBER: ${{ steps.buildnum.outputs.new_build_number }}
+        NEW_BUILD_NUMBER: ${{ steps.buildnum.outputs.new_build_number || steps.androidcode.outputs.android_version_code }}
       run: |
         echo "Using NEW_BUILD_NUMBER=$NEW_BUILD_NUMBER"
         eas build --local --non-interactive \

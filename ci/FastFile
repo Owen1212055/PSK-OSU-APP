@@ -49,7 +49,7 @@ platform :ios do
       begin
         codes = google_play_track_version_codes(
           package_name: ANDROID_PACKAGE_NAME,
-          track: DEFAULT_TRACK,
+          track: ENV["PLAY_TRACK"] || "internal",
           json_key: JSON_KEY
         )
         next_code = (Array(codes).max || 0) + 1
