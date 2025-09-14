@@ -34,7 +34,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.ACCESS_BACKGROUND_LOCATION"
         ],
-        package: "com.owen1212055.pskosu"
+        package: "com.owen1212055.pskosu",
+        versionCode: parseInt(process.env.NEW_BUILD_NUMBER) || 1
     },
     plugins: [
         "expo-router",
