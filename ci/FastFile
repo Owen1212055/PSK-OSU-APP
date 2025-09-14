@@ -59,14 +59,7 @@ platform :ios do
       end
 
       UI.success("✅ ANDROID_VERSION_CODE=#{next_code}")
-
-      # Prefer modern GitHub Actions output file if present
-      if ENV["GITHUB_OUTPUT"] && !ENV["GITHUB_OUTPUT"].empty?
-        sh(%Q(echo "android_version_code=#{next_code}" >> "$GITHUB_OUTPUT"))
-      else
-        # Fallback: legacy helper if you still want it
-        set_github_output(name: "android_version_code", value: next_code)
-      end
+      set_github_output(name: "new_build_number", value: next_code)
 
       next_code
     end
