@@ -23,7 +23,7 @@ interface LoginResponse {
 
 const API_BASE_URL = __DEV__ ?
     "http://fe552c0ae77f.ngrok.app/api" :
-    "http://psk-backend.owen1212055.com/api";
+    "https://psk-backend.owen1212055.com/api";
 
 
 class APIService {
