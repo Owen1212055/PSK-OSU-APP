@@ -404,11 +404,9 @@ export default function GradedEventTile() {
                                 })}
                             </ScrollView>
 
-                            {selectedEntries.length === 0 && (
-                                <TouchableOpacity style={[styles.createButton, { backgroundColor: buttonColor }]} onPress={autoPopulate}>
-                                    <ThemedText type="default_button">Auto Populate Missing Entries</ThemedText>
-                                </TouchableOpacity>
-                            )}
+                            <TouchableOpacity style={[styles.createButton, { backgroundColor: buttonColor }]} onPress={autoPopulate}>
+                                <ThemedText type="default_button">Auto Populate Missing Entries</ThemedText>
+                            </TouchableOpacity>
 
                             {/* Actions */}
                             <View style={styles.actions}>
