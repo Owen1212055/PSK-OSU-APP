@@ -70,6 +70,7 @@ function useStyles(theme: Theme) {
             alignSelf: "stretch",
         },
         confirm_password_holder: {
+            alignSelf: "stretch",
             gap: 4
         },
         confirm_password_text: {

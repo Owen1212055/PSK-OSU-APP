@@ -46,9 +46,9 @@ export default function PagerWithHeader() {
     const { effective } = useThemeCtx();
 
     return (
-        <SafeAreaView style={styles.root}>
+        <View style={styles.root}>
             <View style={styles.content}>
-                <View style={styles.header}>
+                <SafeAreaView style={styles.header} edges={["top"]}>
                     <Image style={styles.image} source={effective == 'light' ? require('../../assets/images/psk_title_black.png') : require('../../assets/images/psk_title.png')}/>
                     <View style={styles.icons}>
                         {/*<BellIcon color={color(useTheme(), 'icon_color')}/>*/}
@@ -56,7 +56,7 @@ export default function PagerWithHeader() {
                             <Settings2Icon color={color(useTheme(), 'icon_color')}/>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </SafeAreaView>
                 <PillHeader
                     labels={['Events', 'Points']}
                     scrollX={scrollX}
@@ -72,11 +72,13 @@ export default function PagerWithHeader() {
             >
                 {tabComponents.map((TabComponent, index) => (
                     <ScrollView key={index} style={styles.pager_content} bounces={false}>
-                        {TabComponent}
+                        <SafeAreaView edges={["bottom"]}>
+                            {TabComponent}
+                        </SafeAreaView>
                     </ScrollView>
                 ))}
             </AnimatedPagerView>
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -89,7 +91,7 @@ function useStyles(theme: Theme) {
             gap: 24
         },
         content: {
-            padding: 16,
+            padding: 16
         },
         image: {
             width: 64,

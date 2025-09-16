@@ -106,10 +106,10 @@ export default function DashboardScreen() {
 
                     <View style={styles.options}>
                         <TitledView title={"First Name"} titleTheme={"title_new_chunky_subtext_heavy"}>
-                            <RoundedInputBox defaultValue={firstName}/>
+                            <RoundedInputBox defaultValue={firstName} onChangeText={setFirstName}/>
                         </TitledView>
                         <TitledView title={"Last Name"} titleTheme={"title_new_chunky_subtext_heavy"}>
-                            <RoundedInputBox defaultValue={lastName}/>
+                            <RoundedInputBox defaultValue={lastName} onChangeText={setLastName}/>
                         </TitledView>
                         <TitledView title={"Username"} titleTheme={"subtitle_new_chunky_subtext_heavy"} headerIcon={
                             <Lock color={color(useTheme(), 'subtitle')} size={18} strokeWidth={2.5}/>

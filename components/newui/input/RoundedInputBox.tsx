@@ -30,7 +30,6 @@ export const RoundedInputBox: React.FC<RoundedInputBoxProps> = ({disabled = fals
 function createStyles(theme: Theme) {
     return StyleSheet.create({
         inputRow: {
-            flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
