@@ -14,6 +14,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     ios: {
+        icon: "./assets/app.icon",
         supportsTablet: true,
         bundleIdentifier: "com.owen1212055.pskosu",
         buildNumber: process.env.NEW_BUILD_NUMBER,
